@@ -1,0 +1,29 @@
+{
+    "name": "wpmet/utility-package",
+    "description": "Utility packages for Wpmet plugin, It will be used to serve Stories, Notice , Banner and Ratings",
+    "type": "library",
+    "license": "GPL",
+    "autoload": {
+        "psr-4": {
+            "Wpmet\\UtilityPackage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "XpeedStudio",
+            "email": "info@xpeedstudio.com"
+        },
+        {
+            "name": "Wpmet",
+            "email": "info@xpeedstudio.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+
+    },
+    "require-dev": {
+
+    }
+
+}
