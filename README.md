@@ -39,8 +39,7 @@ it take care of namespaces initializing and calling by mapping it in its autoloa
     ],
     "minimum-stability": "stable",
     "require": {
-         "php": ">=7.4",
-         "vendor/package": ">=1.0.1"
+         "php": ">=7.4"
 
     },
     "require-dev": {
@@ -58,7 +57,7 @@ it take care of namespaces initializing and calling by mapping it in its autoloa
 
 ## to install this package by CLI
 
-`` composer require xs-khairul/pac04  ``
+`` composer require wpmet/utility-package  ``
 
 ## Using feature example 
 
