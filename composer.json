@@ -1,9 +1,9 @@
 {
     "name": "wpmet/utility-package",
     "description": "Utility packages for Wpmet plugin, It will be used to serve Stories, Notice , Banner and Ratings",
-    "version": "1.1.1",
+    "version": "v1.0.0",
     "type": "library",
-    "license": "GPL",
+    "license": "GPL-3.0-only",
     
     "autoload": {
         "psr-4": {
