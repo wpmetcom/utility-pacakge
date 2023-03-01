@@ -1,72 +1,26 @@
+
 # utility-package
 
 ## Over View of package 
 
-* Wpmet Plugin Utility helper package for Banner , Notice , Stories and Rating.
+* Wpmet Plugin Utility helper package for Banner, Notice, Stories, and Rating.
 * We made a composer package for these classes together.
 * By using this Helper package we are centralizing the feature of these Classes in a package manager
-  (so that any update or modifications of this functionalities globally no need to give hand or keep any dependencies on our plugins)
+  (so that any update or modifications of these functionalities globally have  no need to give hand or keep any dependencies on our plugins)
 
 
-
-## Composer and making :
-
-composer is a php dependency manager which take cares of all dependencies of projects ,
-it take care of namespaces initializing and calling by mapping it in its autoload.php file we just need to specify the root dir in its json file call composer.json we can also configure its dependencies here and its author and package name etc. 
-
-``composer.json  file example``
-
-```php 
-{
-    "name": "wpmet/utility-package",
-    "description": "Utility packages for Wpmet plugin, It will be used to serve Stories, Notice , Banner and Ratings",
-    "version": "1.0.0",
-    "type": "library",
-    "license": "GPL-3.0-only",
-    
-    "autoload": {
-        "psr-4": {
-            "Wpmet\\UtilityPackage\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "XpeedStudio",
-            "email": "info@xpeedstudio.com"
-        },
-        {
-            "name": "Wpmet",
-            "email": "info@xpeedstudio.com"
-        }
-    ],
-    "minimum-stability": "stable",
-    "require": {
-
-    },
-    "require-dev": {
-
-    }
-}
-```
-### explanation 
-
-* namespace "Wpmet\\UtilityPackage\\" point to the src/ folder directly by composer when it calls 
-* require if any other package needed for this project.
-* required-dev if any other package needed for this project for only development purpose.
-
-
-## to install this package by CLI
+## Installation
 
 `` composer require wpmet/utility-package ``
 
-this command install the latest version of our package .
+this command installs the latest version of our package.
 
 ## Calling/Using feature example here :
 
 ```php 
 
             /**
-			 * Show WPMET stories widget in dashboard
+			 * Show WPMET stories widget in the dashboard
 			 */
 
             $filter_string = ''; // elementskit,metform-pro
