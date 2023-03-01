@@ -12,16 +12,18 @@
 ## Composer and making :
 
 composer is a php dependency manager which take cares of all dependencies of projects ,
-it take care of namespaces initializing and calling by mapping it in its autoload.php file we just need to specify the root dir in its jeson file call composer.json we can also configure its dependencies here and its author and package name etc. 
+it take care of namespaces initializing and calling by mapping it in its autoload.php file we just need to specify the root dir in its json file call composer.json we can also configure its dependencies here and its author and package name etc. 
 
 ``composer.json  file example``
 
 ```php 
 {
     "name": "wpmet/utility-package",
-    "description": "Utility packages for plugin, It will be used to serve Stories, Notice , Banner and Ratings",
+    "description": "Utility packages for Wpmet plugin, It will be used to serve Stories, Notice , Banner and Ratings",
+    "version": "1.0.0",
     "type": "library",
-    "license": "GPL",
+    "license": "GPL-3.0-only",
+    
     "autoload": {
         "psr-4": {
             "Wpmet\\UtilityPackage\\": "src/"
@@ -39,13 +41,11 @@ it take care of namespaces initializing and calling by mapping it in its autoloa
     ],
     "minimum-stability": "stable",
     "require": {
-         "php": ">=7.4"
 
     },
     "require-dev": {
 
     }
-
 }
 ```
 ### explanation 
@@ -57,33 +57,80 @@ it take care of namespaces initializing and calling by mapping it in its autoloa
 
 ## to install this package by CLI
 
-`` composer require wpmet/utility-package  ``
+`` composer require wpmet/utility-package ``
 
-## Using feature example 
+this command install the latest version of our package .
+
+## Calling/Using feature example here :
 
 ```php 
 
-/**
+            /**
 			 * Show WPMET stories widget in dashboard
 			 */
-			\Wpmet\UtilityPackage\Stories\Stories::instance( 'elementskit-lite' )
-			// ->is_test(true)
-			->set_filter( $filter_string )
-			->set_plugin( 'ElementsKit', 'https://wpmet.com/plugin/elementskit/' )
-			->set_api_url( 'https://api.wpmet.com/public/stories/' )
+
+            $filter_string = ''; // elementskit,metform-pro
+            $filter_string .= ((!in_array('elementskit/elementskit.php', apply_filters('active_plugins', get_option('active_plugins')))) ? '' : ',elementskit');
+            $filter_string .= (!class_exists('\MetForm\Plugin') ? '' : ',metform');
+            $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
+
+
+			\Wpmet\UtilityPackage\Stories\Stories::instance( 'elementskit-lite' )   # @plugin_slug
+			// ->is_test(true)                                                      # @check_interval
+			->set_filter( $filter_string )                                          # @active_plugins
+			->set_plugin( 'ElementsKit', 'https://wpmet.com/plugin/elementskit/' )  # @plugin_name  @plugin_url
+			->set_api_url( 'https://api.wpmet.com/public/stories/' )                # @api_url_for_stories
 			->call();
+
+
+
+            /**
+			 * Show elementskit Notice
+			 */
+
+            \Wpmet\UtilityPackage\Notice\Notice::instance( 'elementskit-lite', 'go-pro-noti2ce' )   # @plugin_slug @notice_name
+            ->set_dismiss( 'global', ( 3600 * 24 * 300 ) )                                          # @global/user @time_period
+            ->set_type( 'warning' )                                                                 # @notice_type
+            ->set_html(
+                    '
+                    <div class="ekit-go-pro-notice">
+                        <strong>Thank you for using ElementsKit Lite.</strong> To get more amazing features and the outstanding pro ready-made layouts, please get the <a style="color: #FCB214;" target="_blank" href="https://wpmet.com/elementskit-pricing">Premium Version</a>.
+                    </div>
+                '
+                )                                                                                     # @notice_massage_html
+            ->call();
+
+
+       
+
 
 
 			/**
 			 * Show WPMET banner (codename: jhanda)
 			 */
-			\Wpmet\UtilityPackage\Banner\Banner::instance( 'elementskit-lite' )
-			// ->is_test(true)
-			->set_filter( ltrim( $filter_string, ',' ) )
-			->set_api_url( 'https://api.wpmet.com/public/jhanda' )
-			->set_plugin_screens( 'edit-elementskit_template' )
-			->set_plugin_screens( 'toplevel_page_elementskit' )
+
+
+			\Wpmet\UtilityPackage\Banner\Banner::instance( 'elementskit-lite' )     # @plugin_slug
+			// ->is_test(true)                                                      # @check_interval
+			->set_filter( ltrim( $filter_string, ',' ) )                            # @active_plugins
+			->set_api_url( 'https://api.wpmet.com/public/jhanda' )                  # @api_url_for_banners
+			->set_plugin_screens( 'edit-elementskit_template' )                     # @set_allowed_screen
+			->set_plugin_screens( 'toplevel_page_elementskit' )                     # @set_allowed_screen
 			->call();
+
+            /**
+			 * Ask for Ratings 
+			 */
+            \Wpmet\UtilityPackage\Rating\Rating::instance('metform')                    # @plugin_slug
+            ->set_plugin_logo('https://ps.w.org/metform/assets/icon-128x128.png')       # @plugin_logo_url
+            ->set_plugin('Metform', 'https://wpmet.com/wordpress.org/rating/metform')   # @plugin_name  @plugin_url
+            ->set_allowed_screens('edit-metform-entry')                                 # @set_allowed_screen
+            ->set_allowed_screens('edit-metform-form')                                  # @set_allowed_screen
+            ->set_allowed_screens('metform_page_metform_get_help')                      # @set_allowed_screen
+            ->set_priority(30)                                                          # @priority
+            ->set_first_appear_day(7)                                                   # @time_interval_days
+            ->set_condition(true)                                                       # @check_conditions
+            ->call();
 
 
 ```
