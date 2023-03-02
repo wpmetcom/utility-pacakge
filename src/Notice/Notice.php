@@ -2,6 +2,7 @@
 namespace Wpmet\UtilityPackage\Notice;
 
 defined( 'ABSPATH' ) || exit;
+
 use Wpmet\UtilityPackage\Helper\Helper as UtilsHelper;
 
 /**
@@ -17,7 +18,7 @@ class Notice {
 	 *
 	 * @var string
 	 */
-	protected $script_version = '2.1.1';
+	// protected $script_version = '2.1.1';
 
 	/**
 	 * Unique ID to identify each notice
@@ -135,7 +136,9 @@ class Notice {
 	 * @return string
 	 */
 	public function get_version() {
-		return $this->script_version;
+		// return $this->script_version;
+		return UtilsHelper::get_pac_version();
+
 	}
 
 	/**

@@ -3,6 +3,8 @@ namespace Wpmet\UtilityPackage\Banner;
 
 defined( 'ABSPATH' ) || exit;
 
+use Wpmet\UtilityPackage\Helper\Helper as UtilsHelper;
+
 /**
  * Showing Banners
  * other stuffs
@@ -11,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class Banner {
 
-	protected $script_version = '2.1.0';
+	// protected $script_version = '2.1.0';
 
 	protected $key = 'wpmet_banner';
 	protected $data;
@@ -27,7 +29,9 @@ class Banner {
 
 
 	public function get_version() {
-		return $this->script_version;
+		// return $this->script_version;
+		return UtilsHelper::get_pac_version();
+
 	}
 
 	public function get_script_location() {

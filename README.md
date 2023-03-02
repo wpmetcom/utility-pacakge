@@ -19,16 +19,13 @@
 ## Calling/Using feature example here :
 
 ```php 
-
 /**
  * Show WPMET stories widget in the dashboard
  */
-
 $filter_string = ''; // elementskit,metform-pro
 $filter_string .= ((!in_array('elementskit/elementskit.php', apply_filters('active_plugins', get_option('active_plugins')))) ? '' : ',elementskit');
 $filter_string .= (!class_exists('\MetForm\Plugin') ? '' : ',metform');
 $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
-
 
 \Wpmet\UtilityPackage\Stories\Stories::instance( 'elementskit-lite' )   # @plugin_slug
 // ->is_test(true)                                                      # @check_interval
@@ -37,12 +34,9 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
 ->set_api_url( 'https://api.wpmet.com/public/stories/' )                # @api_url_for_stories
 ->call();
 
-
-
 /**
  * Show elementskit Notice
  */
-
 \Wpmet\UtilityPackage\Notice\Notice::instance( 'elementskit-lite', 'go-pro-noti2ce' )   # @plugin_slug @notice_name
 ->set_dismiss( 'global', ( 3600 * 24 * 300 ) )                                          # @global/user @time_period
 ->set_type( 'warning' )                                                                 # @notice_type
@@ -58,16 +52,9 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
     )                                                                                     # @notice_massage_html
 ->call();
 
-
-
-
-
-
 /**
  * Show WPMET banner (codename: jhanda)
  */
-
-
 \Wpmet\UtilityPackage\Banner\Banner::instance( 'elementskit-lite' )     # @plugin_slug
 // ->is_test(true)                                                      # @check_interval
 ->set_filter( ltrim( $filter_string, ',' ) )                            # @active_plugins

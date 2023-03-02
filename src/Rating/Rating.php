@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 
 use DateTime;
 use Wpmet\UtilityPackage\Notice\Notice as LibsNotice;
+use Wpmet\UtilityPackage\Helper\Helper as UtilsHelper;
 
 /**
  * Asking client for rating and
@@ -18,6 +19,8 @@ class Rating {
 	private $priority = 10;
 	private $days;
 	private $rating_url;
+	private $support_url;
+
 	private $version;
 	private $condition_status = true;
 	private $text_domain;
@@ -25,13 +28,13 @@ class Rating {
 	private $plugin_screens;
 	private $duplication          = false;
 	private $never_show_triggered = false;
-
+	
 	/**
 	 * scripts version
 	 *
 	 * @var string
 	 */
-	protected $script_version = '2.0.0';
+	// protected $script_version = '2.0.0';
 
 	private static $instance;
 
@@ -68,7 +71,9 @@ class Rating {
 	 * @return \Wpmet\Rating\Rating
 	 */
 	public function get_version() {
-		return $this->script_version;
+		// return $this->script_version;
+		return UtilsHelper::get_pac_version();
+
 	}
 
 	/**
@@ -102,6 +107,11 @@ class Rating {
 
 	public function set_rating_url( $url ) {
 		$this->rating_url = $url;
+		return $this;
+	}
+
+	public function set_support_url( $url ) {
+		$this->support_url = $url;
 		return $this;
 	}
 
@@ -167,13 +177,15 @@ class Rating {
 
 			$current_screen = get_current_screen();
 
-			// if ( ! $this->is_current_screen_allowed( $current_screen->id ) ) {
-			// 	return;
-			// }
+			if ( ! $this->is_current_screen_allowed( $current_screen->id ) ) {
+				return;
+			}
 
-			// if ( $this->condition_status === false ) {
-			// 	return;
-			// }
+			if ( $this->condition_status === false) {
+				return;
+			}
+
+
 
 			add_action( 'admin_footer', array( $this, 'scripts' ), 9999 );
 
@@ -315,7 +327,7 @@ class Rating {
 				)
 				->set_button(
 					array(
-						'url'   => '#',
+						'url'   => get_current_screen()->id == 'toplevel_page_getgenie' ? '#write-for-me' : '#',
 						'text'  => 'I already did',
 						'class' => 'button-default',
 						'id'    => $this->text_domain . '_btn_already_did',
@@ -324,7 +336,7 @@ class Rating {
 				)
 				->set_button(
 					array(
-						'url'   => 'https://wpmet.com/support-ticket',
+						'url'   => $this->support_url,
 						'text'  => 'I need support',
 						'class' => 'button-default',
 						'id'    => '#',
@@ -333,7 +345,7 @@ class Rating {
 				)
 				->set_button(
 					array(
-						'url'   => '#',
+						'url'   => get_current_screen()->id == 'toplevel_page_getgenie' ? '#write-for-me' : '#',
 						'text'  => 'No, not good enough',
 						'class' => 'button-default',
 						'id'    => $this->text_domain . $not_good_enough_btn_id,

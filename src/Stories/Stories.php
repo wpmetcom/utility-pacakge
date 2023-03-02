@@ -3,6 +3,8 @@ namespace Wpmet\UtilityPackage\Stories;
 
 defined( 'ABSPATH' ) || exit;
 
+use Wpmet\UtilityPackage\Helper\Helper as UtilsHelper;
+
 /**
  * Showing Stories 
  * other stuffs
@@ -11,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class Stories {
 
-	protected $script_version = '1.1.1';
+	// protected $script_version = '1.1.1';
 
 	protected $key = 'wpmet_stories';
 	protected $data;
@@ -34,7 +36,8 @@ class Stories {
 	 * @return string Version name
 	 */
 	public function get_version() {
-		return $this->script_version;
+		// return $this->script_version;
+		return UtilsHelper::get_pac_version();
 	}
 
 	/**
