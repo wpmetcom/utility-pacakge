@@ -3,8 +3,13 @@ namespace Wpmet\UtilityPackage\Notice;
 
 defined( 'ABSPATH' ) || exit;
 use Wpmet\UtilityPackage\Helper\Helper as UtilsHelper;
-// if ( ! class_exists( '\Wpmet\UtilityPackage\Notice' ) ) :
 
+/**
+ * Showing Notice
+ * other stuffs
+ * Class Notice
+ * @package Wpmet\UtilityPackage
+ */
 class Notice {
 
 	/**
@@ -510,4 +515,3 @@ class Notice {
 	}
 }
 
-// endif;
