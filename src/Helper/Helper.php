@@ -223,4 +223,8 @@ class Helper
         return $allowed_tags;
     }
 
+    public static function get_pac_version(){
+        return \Composer\InstalledVersions::getPrettyVersion('wpmet/utility-package');
+    }
+
 }
