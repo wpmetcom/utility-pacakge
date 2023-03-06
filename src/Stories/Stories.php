@@ -50,9 +50,14 @@ class Stories {
 	}
 
 	public function set_plugin( $link_title, $weblink = 'https://wpmet.com/' ) {
-		$this->plugin_link[] = array( $link_title, $weblink );
+		$plugin = [$link_title, $weblink];
+		add_filter("wpmet/stories/plugin_links", function ($plugin_links) use ($plugin) {
+			$plugin_links[] = $plugin;
+			return $plugin_links;
+		});
 
 		return $this;
+
 	}
 
 	public function call() {

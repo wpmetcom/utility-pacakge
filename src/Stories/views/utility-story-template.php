@@ -85,9 +85,10 @@
 <div class="utility-dashboard-widget-block">
 	<div class="utility-title-bar">
 		<?php
-		foreach ( $this->plugin_link as $k => $link ) {
+		$plugin_links = apply_filters('wpmet/stories/plugin_links', []);
+		foreach ($plugin_links as $k => $link) {
 			echo '<a target="_blank" href="' . esc_url($link[1]) . '"> ' . esc_html($link[0]) . '</a>';
-			if ( isset( $this->plugin_link[ $k + 1 ] ) ) {
+			if (isset($plugin_links[$k + 1])) {
 				echo '<div class="utility-bullet-wall"></div>';
 			}
 		}
