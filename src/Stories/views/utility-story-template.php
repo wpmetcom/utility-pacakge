@@ -110,7 +110,7 @@ foreach ( $this->stories as $story ) :
 			<div  class="utility-stories-str-desc">
 
 				<a target="_blank" href="<?php echo esc_url( $story['story_link'] ); ?>">
-					<?php echo esc_html( $story['title'] ."#test-console-01"); ?>    
+					<?php echo esc_html( $story['title'] ); ?>    
 				</a>
 
 				<?php if ( isset( $story['description'] ) && $story['description'] != '' ) : ?>
