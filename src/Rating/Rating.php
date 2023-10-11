@@ -194,22 +194,20 @@ class Rating {
 					$this->set_installation_date();
 				}
 
-				// if ( get_option( $this->text_domain . '_never_show' ) == 'yes' ) {
+				if ( get_option( $this->text_domain . '_never_show' ) == 'yes' ) {
 					
-				// //	return;
-				// }
+					return;
+				}
 
-				// $this->display_message_box();
-
-				// if ( get_option( $this->text_domain . '_ask_me_later' ) == 'yes' ) {
+				if ( get_option( $this->text_domain . '_ask_me_later' ) == 'yes' ) {
 					
-				// 	$this->days                 = '30';
-				// 	$this->duplication          = true;
-				// 	$this->never_show_triggered = true;
-				// 	if ( $this->get_remaining_days() >= $this->days ) {
-				// 		$this->duplication = false;
-				// 	}
-				// }
+					$this->days                 = '30';
+					$this->duplication          = true;
+					$this->never_show_triggered = true;
+					if ( $this->get_remaining_days() >= $this->days ) {
+						$this->duplication = false;
+					}
+				}
 
 				$this->display_message_box();
 
@@ -343,6 +341,13 @@ class Rating {
 						'icon'  => 'dashicons-before dashicons-sos',
 					)
 				)
+				->set_button([
+					'url'   => '#',
+					'text'  => 'Never ask again',
+					'class' => 'button-default',
+					'id'    => $this->text_domain . '_btn_never_show',
+					'icon'  => 'dashicons-before dashicons-welcome-comments',
+				])
 				->set_button(
 					array(
 						'url'   => get_current_screen()->id == 'toplevel_page_getgenie' ? '#write-for-me' : '#',
