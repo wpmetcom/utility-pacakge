@@ -28,6 +28,7 @@ class Rating {
 	private $plugin_screens;
 	private $duplication          = false;
 	private $never_show_triggered = false;
+	private $rating_show_interval = 30;
 	
 	/**
 	 * scripts version
@@ -201,7 +202,7 @@ class Rating {
 
 				if ( get_option( $this->text_domain . '_ask_me_later' ) == 'yes' ) {
 					
-					$this->days                 = '30';
+					$this->days                 = $this->rating_show_interval;
 					$this->duplication          = true;
 					$this->never_show_triggered = true;
 					if ( $this->get_remaining_days() >= $this->days ) {
@@ -272,6 +273,18 @@ class Rating {
 		$plugin_name = isset($_POST['plugin_name']) ? sanitize_key( $_POST['plugin_name'] ) : '';
 		add_option( $plugin_name . '_never_show', 'yes' );
 	}
+
+
+	/**
+	 * set rating show interval if user set ask me later 
+	 */
+	public function rating_show_interval( int $rating_show_interval = 30 ) {
+		
+		$this->rating_show_interval = $rating_show_interval;
+
+		return $this;
+	}
+
 
 	public function get_remaining_days() {
 		$install_date  = get_option( $this->text_domain . '_install_date' );
