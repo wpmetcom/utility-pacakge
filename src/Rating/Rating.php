@@ -28,6 +28,7 @@ class Rating {
 	private $plugin_screens;
 	private $duplication          = false;
 	private $never_show_triggered = false;
+	private $rating_show_interval = 30;
 	
 	/**
 	 * scripts version
@@ -194,22 +195,20 @@ class Rating {
 					$this->set_installation_date();
 				}
 
-				// if ( get_option( $this->text_domain . '_never_show' ) == 'yes' ) {
+				if ( get_option( $this->text_domain . '_never_show' ) == 'yes' ) {
 					
-				// //	return;
-				// }
+					return;
+				}
 
-				// $this->display_message_box();
-
-				// if ( get_option( $this->text_domain . '_ask_me_later' ) == 'yes' ) {
+				if ( get_option( $this->text_domain . '_ask_me_later' ) == 'yes' ) {
 					
-				// 	$this->days                 = '30';
-				// 	$this->duplication          = true;
-				// 	$this->never_show_triggered = true;
-				// 	if ( $this->get_remaining_days() >= $this->days ) {
-				// 		$this->duplication = false;
-				// 	}
-				// }
+					$this->days                 = $this->rating_show_interval;
+					$this->duplication          = true;
+					$this->never_show_triggered = true;
+					if ( $this->get_remaining_days() >= $this->days ) {
+						$this->duplication = false;
+					}
+				}
 
 				$this->display_message_box();
 
@@ -274,6 +273,18 @@ class Rating {
 		$plugin_name = isset($_POST['plugin_name']) ? sanitize_key( $_POST['plugin_name'] ) : '';
 		add_option( $plugin_name . '_never_show', 'yes' );
 	}
+
+
+	/**
+	 * set rating show interval if user set ask me later 
+	 */
+	public function rating_show_interval( int $rating_show_interval = 30 ) {
+		
+		$this->rating_show_interval = $rating_show_interval;
+
+		return $this;
+	}
+
 
 	public function get_remaining_days() {
 		$install_date  = get_option( $this->text_domain . '_install_date' );
@@ -343,6 +354,13 @@ class Rating {
 						'icon'  => 'dashicons-before dashicons-sos',
 					)
 				)
+				->set_button([
+					'url'   => '#',
+					'text'  => 'Never ask again',
+					'class' => 'button-default',
+					'id'    => $this->text_domain . '_btn_never_show',
+					'icon'  => 'dashicons-before dashicons-welcome-comments',
+				])
 				->set_button(
 					array(
 						'url'   => get_current_screen()->id == 'toplevel_page_getgenie' ? '#write-for-me' : '#',

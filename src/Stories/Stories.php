@@ -259,19 +259,19 @@ class Stories {
 			return;
 		}
 
-		$this->title = ( isset( $this->title ) && ! empty( $this->title ) ? $this->title . 'xxxx ' : '' ) . 'Stories';
+		$this->title = ( isset( $this->title ) && ! empty( $this->title ) ? $this->title . ' ' : '' ) . 'Stories';
 
-		wp_add_dashboard_widget( 'wpmet-stories', __( 'Wpmet Stories', 'elementskit-lite' ), array( $this, 'show' ) );
+        wp_add_dashboard_widget('wpmet-stories', $this->title ?? __('Wpmet Stories'), array($this, 'show'), null, null, 'normal', 'high' );
 
 		// Move our widget to top.
 		global $wp_meta_boxes;
 
-		$dashboard = $wp_meta_boxes['dashboard']['normal']['core'];
+		$dashboard = $wp_meta_boxes['dashboard']['normal']['high'];
 		$ours      = array(
 			'wpmet-stories' => $dashboard['wpmet-stories'],
 		);
 
-		$wp_meta_boxes['dashboard']['normal']['core'] = array_merge( $ours, $dashboard );
+		$wp_meta_boxes['dashboard']['normal']['high'] = array_merge( $ours, $dashboard );
 	}
 
 	public function show() {
