@@ -7,7 +7,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Description: Wpmet Apps class. This class is used to display the wpmet other plugins
  * 
- * @package Apps
+ * @package Wpmet\UtilityPackage
+ * @subpackage Wpmet\UtilityPackage\Apps
  * @author Wpmet
  * 
  * @since 1.0.0
