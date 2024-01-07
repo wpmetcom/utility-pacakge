@@ -80,7 +80,7 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
 /**
  * Show apps menu for others wpmet plugins
  */
-$apps_page = \Wpmet\UtilityPackage\Apps\Apps::instance()->init('metform')   # @text_domain
+\Wpmet\UtilityPackage\Apps\Apps::instance()->init('metform')                # @text_domain
 ->set_parent_menu_slug('metform-menu')                                      # @plugin_slug
 ->set_submenu_name('Apps')                                                  # @submenu_name
 ->set_plugins(                                                              # @plugins
