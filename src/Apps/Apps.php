@@ -22,19 +22,6 @@ class Apps
 	private $menu_slug = '_wpmet_apps';
 	private $submenu_name = 'Apps';
 	private $plugins = [];
-	protected $script_version = '1.0.0';
-
-	/**
-	 * Get version of this script
-	 *
-	 * @return string Version name
-	 * 
-	 * @since 1.0.0
-	 */
-	public function get_version() {
-
-		return $this->script_version;
-	}
 
 	/**
 	 * Creates and returns an instance of the class.
