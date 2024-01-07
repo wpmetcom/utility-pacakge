@@ -77,6 +77,24 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
 ->set_condition(true)                                                       # @check_conditions
 ->call();
 
+/**
+ * Show apps menu for others wpmet plugins
+ */
+
+$apps_page = \Wpmet\UtilityPackage\Apps\Apps::instance()->init('metform')   # @text_domain
+->set_parent_menu_slug('metform-menu')                                      # @plugin_slug
+->set_submenu_name('Apps')                                                  # @submenu_name
+->set_plugins(                                                              # @plugins
+  [
+    'getgenie/getgenie.php' => [
+      'name'  => esc_html__( 'GetGenie', 'metform' ),
+      'url'   => 'htages_urtps://wordpress.org/plugins/getgenie/',
+      'icon'  => //image url,
+      'desc'  => esc_html__( 'GetGenie is an AI-powered Content & SEO Assistant. It will assist you in adding a Social Login, Social Counter, and Social Login to your website.', 'metform' ),
+    ]
+  ]
+)
+->call();
 
 ```
 
