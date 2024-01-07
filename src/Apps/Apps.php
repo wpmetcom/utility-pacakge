@@ -55,52 +55,6 @@ class Apps
 
 		return $this;
 	}
-	
-	/**
-	 * Enqueues scripts for the plugin.
-	 *
-	 * This function is responsible for enqueueing the necessary JavaScript scripts for the plugin.
-	 *
-	 * @return void
-	 * 
-	 * @since 1.0.0
-	 */
-	public static function enqueue_scripts() {
-		?>
-		<script type="text/javascript">
-			jQuery( document ).ready( function( $ ) {
-				$(document).on('click', '.wpmet_apps_action_button', function(event){
-					
-					let $button = $(this);
-					let action_url = $button.data('action_url');
-					let plugin_status = $button.data('plugin_status');
-					// let activation_url = $button.data('activation_url');
-					// let installation_url = $button.data('installation_url');
-	
-					if(plugin_status === 'status-missing' || plugin_status === 'status-installed'){
-						
-						$.ajax({
-							type : "GET",
-							url : action_url,
-							beforeSend: () => {
-								plugin_status === 'status-missing' ? $button.text('Installing...') : $button.text('Activating...');
-							},
-							success: (response) => {
-
-								if(plugin_status === 'status-missing'){
-									$button.text('Activate Now');
-								}else{
-									$button.text('Activated')
-								}
-								location.reload();
-							}
-						});
-					}
-				});
-			} );
-		</script>
-		<?php
-	}
 
 	/**
 	 * Set the text domain for the object.
@@ -396,5 +350,51 @@ class Apps
 		$plugin_data = array_merge( $plugin_data, $details );
 
 		return $plugin_data;
+	}
+
+    /**
+	 * Enqueues scripts for the plugin.
+	 *
+	 * This function is responsible for enqueueing the necessary JavaScript scripts for the plugin.
+	 *
+	 * @return void
+	 * 
+	 * @since 1.0.0
+	 */
+	public static function enqueue_scripts() {
+		?>
+		<script type="text/javascript">
+			jQuery( document ).ready( function( $ ) {
+				$(document).on('click', '.wpmet_apps_action_button', function(event){
+					
+					let $button = $(this);
+					let action_url = $button.data('action_url');
+					let plugin_status = $button.data('plugin_status');
+					// let activation_url = $button.data('activation_url');
+					// let installation_url = $button.data('installation_url');
+	
+					if(plugin_status === 'status-missing' || plugin_status === 'status-installed'){
+						
+						$.ajax({
+							type : "GET",
+							url : action_url,
+							beforeSend: () => {
+								plugin_status === 'status-missing' ? $button.text('Installing...') : $button.text('Activating...');
+							},
+							success: (response) => {
+
+								if(plugin_status === 'status-missing'){
+									$button.text('Activate Now');
+								}else{
+									$button.text('Activated')
+								}
+								location.reload();
+							}
+						});
+					}
+				});
+			} );
+		</script>
+		<?php
 	}
 }
