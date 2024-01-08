@@ -276,11 +276,11 @@ class Apps
 						?>
 						<div class="attr-col-lg-4">
 							<div class="wpmet-single-plugin">
-								<label>
+								<div class="wpmet-single-wrapper">
 									<img class="wpmet-single-plugin--logo" src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr(isset( $plugin_data['name']) ? $plugin_data['name'] : '' ); ?>" title="<?php echo esc_attr( isset($plugin_data['name']) ? $plugin_data['name'] : '' ); ?>">
 									<p class="wpmet-single-plugin--description"><?php echo esc_html(isset($plugin_data['desc']) ? $plugin_data['desc'] : ''); ?></p>
 									<button data-installation_url="<?php echo esc_url( $this->installation_url( $plugin ) ); ?>" data-activation_url="<?php echo esc_url( $this->activation_url( $plugin ) ); ?>" data-plugin_status="<?php echo esc_attr( isset($plugin_data['status_class']) ? $plugin_data['status_class'] : '' ); ?>" data-action_url="<?php echo esc_url( $action_url ); ?>" class=" <?php echo esc_attr( $plugin_actvate ? 'activated' : '');  ?> wpmet-btn wpmet-single-plugin--install_plugin wpmet_apps_action_button"><?php echo esc_html( isset( $plugin_data['action_text'] ) ? $plugin_data['action_text'] : "Learn More" ); ?></button>
-								</label>
+								</div>
 							</div>
 						</div>
 						
@@ -442,10 +442,9 @@ class Apps
 						box-shadow: 0 30px 50px rgba(0, 10, 36, 0.1);
 				position: relative;
 			}
-			.wpmet-apps-wrapper .wpmet-single-plugin label {
+			.wpmet-apps-wrapper .wpmet-single-plugin .wpmet-single-wrapper {
 				display: block;
 				padding: 30px 62px 36px 27px;
-				cursor: default;
 			}
 			.wpmet-apps-wrapper .wpmet-single-plugin--install {
 				color: #021343;
