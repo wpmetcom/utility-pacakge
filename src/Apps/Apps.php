@@ -328,18 +328,18 @@ class Apps
 			if ( is_plugin_active( $plugin ) ) {
 				
 				$plugin_data['status_class'] = 'status-active';
-				$plugin_data['status_text']  = esc_html__( 'Active', 'wpforms-lite' );
+				$plugin_data['status_text']  = esc_html__( 'Active', $this->text_domain );
 				$plugin_data['action_class'] = $plugin_data['status_class'] . ' button button-secondary disabled';
-				$plugin_data['action_text']  = esc_html__( 'Activated', 'wpforms-lite' );
+				$plugin_data['action_text']  = esc_html__( 'Activated', $this->text_domain );
 				$plugin_data['plugin_src']   = esc_attr( $plugin );
 
 			} else {
 
 				// Plugin is not active.
 				$plugin_data['status_class'] = 'status-installed';
-				$plugin_data['status_text']  = esc_html__( 'Inactive', 'wpforms-lite' );
+				$plugin_data['status_text']  = esc_html__( 'Inactive', $this->text_domain );
 				$plugin_data['action_class'] = $plugin_data['status_class'] . ' button button-secondary';
-				$plugin_data['action_text']  = esc_html__( 'Activate Now', 'wpforms-lite' );
+				$plugin_data['action_text']  = esc_html__( 'Activate Now', $this->text_domain );
 				$plugin_data['plugin_src']   = esc_attr( $plugin );
 
 			}
@@ -347,9 +347,9 @@ class Apps
 
 			// Plugin is not installed.
 			$plugin_data['status_class'] = 'status-missing';
-			$plugin_data['status_text'] = esc_html__( 'Not Installed', 'wpforms-lite' );
+			$plugin_data['status_text'] = esc_html__( 'Not Installed', $this->text_domain );
 			$plugin_data['action_class'] = $plugin_data['status_class'] . ' button button-primary';
-			$plugin_data['action_text']  = esc_html__( 'Install Now', 'wpforms-lite' );
+			$plugin_data['action_text']  = esc_html__( 'Install Now', $this->text_domain );
 
 		}
 
