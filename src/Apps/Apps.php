@@ -249,37 +249,43 @@ class Apps
 		$can_install_plugins  = current_user_can( 'install_plugins' );
 		$can_activate_plugins = current_user_can( 'activate_plugins' );			
 		?>
-
 		<div class="wpmet-apps-wrapper">
-			<div class="wpmet-apps">
-				<?php
-				foreach ( $wpmet_plugins as $plugin => $details ) :
+			<div class="wpmet-main-header">
+				<h1 class="wpmet-main-header--title"><strong>Take your website to the next level</strong></h1>
+				<p class="wpmet-main-header--description">We have some plugins you can install to get most from Wordpress.</p>
+				<p class="wpmet-main-header--description">These are absolute FREE to use.</p>
+			</div>
+			<div class="wpmet-plugin-list">
+				<div class="wpmet-apps wpmet-plugins-row">
+					<?php
+					foreach ( $wpmet_plugins as $plugin => $details ) :
 
-					$plugin_data = $this->get_plugin_data( $plugin, $details, $all_plugins );
-					$plugin_ready_to_activate = $can_activate_plugins && isset( $plugin_data['status_class'] ) && $plugin_data['status_class'] === 'status-installed';
-					$plugin_not_activated = ! isset( $plugin_data['status_class'] ) || $plugin_data['status_class'] !== 'status-active';
-					$plugin_actvate = isset( $plugin_data['status_class'] ) && $plugin_data['status_class'] === 'status-active';
-					$image_url = isset( $plugin_data['icon'] ) ? $plugin_data['icon'] : '#';
-					$action_url = '#';						
+						$plugin_data = $this->get_plugin_data( $plugin, $details, $all_plugins );
+						$plugin_ready_to_activate = $can_activate_plugins && isset( $plugin_data['status_class'] ) && $plugin_data['status_class'] === 'status-installed';
+						$plugin_not_activated = ! isset( $plugin_data['status_class'] ) || $plugin_data['status_class'] !== 'status-active';
+						$plugin_actvate = isset( $plugin_data['status_class'] ) && $plugin_data['status_class'] === 'status-active';
+						$image_url = isset( $plugin_data['icon'] ) ? $plugin_data['icon'] : '#';
+						$action_url = '#';						
 
-					if( $plugin_ready_to_activate ){
-						$action_url = $this->activation_url( $plugin );
-					}elseif( $plugin_not_activated ) {
-						$action_url = $this->installation_url( $plugin );
-					}
-					
-					?>
-					<div class="attr-col-lg-4" style="padding: 20px; background: white; display: inline-block;">
-						<div class="mf-onboard-single-plugin">
-							<div>
-								<img width="100" class="mf-onboard-single-plugin--logo" src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr(isset( $plugin_data['name']) ? $plugin_data['name'] : '' ); ?>" title="<?php echo esc_attr( isset($plugin_data['name']) ? $plugin_data['name'] : '' ); ?>">
-								<p class="mf-onboard-single-plugin--description"><?php echo esc_html(isset($plugin_data['desc']) ? $plugin_data['desc'] : ''); ?></p>
-								<button <?php echo esc_attr($plugin_actvate ? 'disabled' : '' ); ?> data-installation_url="<?php echo esc_url( $this->installation_url( $plugin ) ); ?>" data-activation_url="<?php echo esc_url( $this->activation_url( $plugin ) ); ?>" data-plugin_status="<?php echo esc_attr( isset($plugin_data['status_class']) ? $plugin_data['status_class'] : '' ); ?>" data-action_url="<?php echo esc_url( $action_url ); ?>" class="button button-primary wpmet_apps_action_button"><?php echo esc_html( isset( $plugin_data['action_text'] ) ? $plugin_data['action_text'] : "Learn More" ); ?></button>
+						if( $plugin_ready_to_activate ){
+							$action_url = $this->activation_url( $plugin );
+						}elseif( $plugin_not_activated ) {
+							$action_url = $this->installation_url( $plugin );
+						}
+						
+						?>
+						<div class="attr-col-lg-4">
+							<div class="wpmet-single-plugin">
+								<label>
+									<img class="wpmet-single-plugin--logo" src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr(isset( $plugin_data['name']) ? $plugin_data['name'] : '' ); ?>" title="<?php echo esc_attr( isset($plugin_data['name']) ? $plugin_data['name'] : '' ); ?>">
+									<p class="wpmet-single-plugin--description"><?php echo esc_html(isset($plugin_data['desc']) ? $plugin_data['desc'] : ''); ?></p>
+									<button data-installation_url="<?php echo esc_url( $this->installation_url( $plugin ) ); ?>" data-activation_url="<?php echo esc_url( $this->activation_url( $plugin ) ); ?>" data-plugin_status="<?php echo esc_attr( isset($plugin_data['status_class']) ? $plugin_data['status_class'] : '' ); ?>" data-action_url="<?php echo esc_url( $action_url ); ?>" class=" <?php echo esc_attr( $plugin_actvate ? 'activated' : '');  ?> wpmet-btn wpmet-single-plugin--install_plugin wpmet_apps_action_button"><?php echo esc_html( isset( $plugin_data['action_text'] ) ? $plugin_data['action_text'] : "Learn More" ); ?></button>
+								</label>
 							</div>
 						</div>
-					</div>
-					
-				<?php endforeach; ?>
+						
+					<?php endforeach; ?>
+				</div>
 			</div>
 		</div>
 		<?php
