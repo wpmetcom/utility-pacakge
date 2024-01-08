@@ -22,6 +22,9 @@ class Apps
 	private $menu_slug = '_wpmet_apps';
 	private $submenu_name = 'Apps';
 	private $plugins = [];
+	private $items_per_row = 6;
+	private $section_title = 'Take your website to the next level';
+	private $section_description = 'We have some plugins you can install to get most from Wordpress. These are absolute FREE to use.';
 
 	/**
 	 * Creates and returns an instance of the class.
@@ -53,6 +56,51 @@ class Apps
 		
 		add_action('admin_head', [$this, 'enqueue_scripts']);
 
+		return $this;
+	}
+
+	/**
+	 * Set the section title.
+	 *
+	 * @param string $title The title of the section.
+	 * @return $this The current object instance.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function set_section_title( $title ){
+
+		$this->section_title = $title;
+
+		return $this;
+	}
+
+	/**
+	 * Sets the description for the section.
+	 *
+	 * @param mixed $description The description for the section.
+	 * @return $this
+	 * 
+	 * @since 1.0.0
+	 */
+	public function set_section_description( $description ){
+
+		$this->section_description = $description;
+		
+		return $this;
+	}
+
+	/**
+	 * Sets the number of items per row.
+	 *
+	 * @param int $items The number of items per row.
+	 * @return $this The current object instance.
+	 * 
+	 * @since 1.0.0
+	 */
+	public function set_items_per_row( $items ){
+
+		$this->items_per_row = $items;
+		
 		return $this;
 	}
 
@@ -251,9 +299,8 @@ class Apps
 		?>
 		<div class="wpmet-apps-wrapper">
 			<div class="wpmet-main-header">
-				<h1 class="wpmet-main-header--title"><strong><?php echo esc_html__( 'Take your website to the next level', $this->text_domain ); ?></strong></h1>
-				<p class="wpmet-main-header--description"><?php echo esc_html__( 'We have some plugins you can install to get most from Wordpress.', $this->text_domain ); ?></p>
-				<p class="wpmet-main-header--description"><?php echo esc_html__( 'These are absolute FREE to use.', $this->text_domain ); ?></p>
+				<h1 class="wpmet-main-header--title"><strong><?php echo esc_html( $this->section_title ); ?></strong></h1>
+				<p class="wpmet-main-header--description"><?php echo esc_html( $this->section_description ); ?></p>
 			</div>
 			<div class="wpmet-plugin-list">
 				<div class="wpmet-apps wpmet-plugins-row">
@@ -475,6 +522,7 @@ class Apps
 
 			.wpmet-apps-wrapper .wpmet-single-plugin--logo {
 				margin-bottom: 12px;
+				max-width: 200px;
 			}
 
 			.wpmet-apps-wrapper .wpmet-single-plugin--install_plugin {
