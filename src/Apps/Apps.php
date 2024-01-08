@@ -363,6 +363,135 @@ class Apps
 	 */
 	public static function enqueue_scripts() {
 		?>
+		<style>
+			.wpmet-apps-wrapper{
+				padding: 30px;
+			}
+			.wpmet-apps-wrapper .wpmet-main-header--title {
+				margin-bottom: 15px;
+    			line-height: 50px;
+				color: #021343;
+				font-size: 40px;
+				line-height: 54px;
+				font-weight: normal;
+			}
+			.wpmet-apps-wrapper .wpmet-main-header--title br {
+				display: none;
+			}
+			.wpmet-apps-wrapper .wpmet-main-header--description {
+				color: #5d5e65;
+				font-size: 16px;
+				line-height: 26px;
+				margin: 0;
+			}
+			.wpmet-apps-wrapper .wpmet-main-header {
+				margin-bottom: 26px;
+			}
+
+			.wpmet-apps-wrapper .wpmet-main-header--title strong {
+				font-weight: 700;
+			}
+			.wpmet-apps-wrapper .wpmet-btn {
+				color: #3E77FC;
+				font-size: 15px;
+				line-height: 18px;
+				background-color: transparent;
+				font-weight: 500;
+				border: 1.5px solid #3E77FC;
+				border-radius: 6px;
+				padding: 11px 32px;
+				-webkit-transition: all .4s;
+				transition: all .4s;
+				text-decoration: none;
+				display: inline-block;
+				cursor: pointer;
+			}
+			.wpmet-apps-wrapper .wpmet-btn:hover {
+				background-color: #3E77FC;
+				color: #fff;
+			}
+			.wpmet-apps-wrapper .wpmet-btn:focus {
+				border-color: #3E77FC;
+				-webkit-box-shadow: none;
+						box-shadow: none;
+			}
+			.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
+				margin-left: -11px;
+				margin-right: -11px;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-pack: center;
+					-ms-flex-pack: center;
+						justify-content: center;
+			}
+			.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row > div {
+				padding: 11px;
+				width: 30%;
+			}
+			.wpmet-apps-wrapper .wpmet-single-plugin {
+				background-color: #fff;
+				border-radius: 6px;
+				-webkit-box-shadow: 0 30px 50px rgba(0, 10, 36, 0.1);
+						box-shadow: 0 30px 50px rgba(0, 10, 36, 0.1);
+				position: relative;
+			}
+			.wpmet-apps-wrapper .wpmet-single-plugin label {
+				display: block;
+				padding: 30px 62px 36px 27px;
+				cursor: default;
+			}
+			.wpmet-apps-wrapper .wpmet-single-plugin--install {
+				color: #021343;
+				font-size: 15px;
+				font-weight: 500;
+				display: block;
+				border: 2px solid #E4E6EE;
+				border-radius: 6px;
+				min-height: 175px;
+				line-height: 175px;
+				position: relative;
+				text-decoration: none;
+			}
+
+			.wpmet-apps-wrapper .wpmet-single-plugin--description {
+				color: #5D5E65;
+				font-size: 15px;
+				line-height: 22px;
+				font-weight: 400;
+				margin: 0;
+			}
+
+			.wpmet-apps-wrapper .wpmet-single-plugin--description span {
+				background: #d7a1f973;
+				color: #021343;
+				font-weight: 500;
+			}
+
+			.wpmet-apps-wrapper .wpmet-single-plugin--logo {
+				margin-bottom: 12px;
+			}
+
+			.wpmet-apps-wrapper .wpmet-single-plugin--install_plugin {
+				padding: 5px 20px 7px 20px;
+				margin-top: 23px;
+			}
+
+			.wpmet-apps-wrapper .wpmet-single-plugin--install_plugin.wpmet-plugin-install-activate {
+				cursor: no-drop;
+				background-color: #E8E9EF;
+				color: #5D5E65;
+				border-color: #E8E9EF;
+			}
+
+			.wpmet-apps-wrapper .wpmet-single-plugin--install_plugin.activated {
+				cursor: default;
+				border: 1px solid #2AAE1433;
+				background: rgba(42, 174, 20, 0.1);
+				color: #2AAE14;
+			}
+
+		</style>
 		<script type="text/javascript">
 			jQuery( document ).ready( function( $ ) {
 				$(document).on('click', '.wpmet_apps_action_button', function(event){
