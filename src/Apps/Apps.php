@@ -251,9 +251,9 @@ class Apps
 		?>
 		<div class="wpmet-apps-wrapper">
 			<div class="wpmet-main-header">
-				<h1 class="wpmet-main-header--title"><strong>Take your website to the next level</strong></h1>
-				<p class="wpmet-main-header--description">We have some plugins you can install to get most from Wordpress.</p>
-				<p class="wpmet-main-header--description">These are absolute FREE to use.</p>
+				<h1 class="wpmet-main-header--title"><strong><?php echo esc_html__( 'Take your website to the next level', $this->text_domain ); ?></strong></h1>
+				<p class="wpmet-main-header--description"><?php echo esc_html__( 'We have some plugins you can install to get most from Wordpress.', $this->text_domain ); ?></p>
+				<p class="wpmet-main-header--description"><?php echo esc_html__( 'These are absolute FREE to use.', $this->text_domain ); ?></p>
 			</div>
 			<div class="wpmet-plugin-list">
 				<div class="wpmet-apps wpmet-plugins-row">
