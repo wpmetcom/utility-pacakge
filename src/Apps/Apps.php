@@ -534,7 +534,7 @@ class Apps
 				background: rgba(42, 174, 20, 0.1);
 				color: #2AAE14;
 			}
-			@media (max-width: 1500px) {
+			@media (max-width: 1600px) {
 				.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
 					grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 				}
@@ -554,8 +554,6 @@ class Apps
 					let $button = $(this);
 					let action_url = $button.data('action_url');
 					let plugin_status = $button.data('plugin_status');
-					// let activation_url = $button.data('activation_url');
-					// let installation_url = $button.data('installation_url');
 	
 					if(plugin_status === 'status-missing' || plugin_status === 'status-installed'){
 						
