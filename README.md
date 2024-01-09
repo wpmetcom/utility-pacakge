@@ -93,14 +93,14 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
       'url'   => 'htages_urtps://wordpress.org/plugins/getgenie/',
       'icon'  => , //image url,
       'desc'  => esc_html__( 'GetGenie is an AI-powered Content & SEO Assistant. It will assist you in adding a Social Login, Social Counter, and Social Login to your website.', 'metform' ),
+    ],
+    'shopengine/shopengine.php' => [
+      'name'  => esc_html__( 'ShopEngine', 'metform' ),
+      'url'   => 'https://wordpress.org/plugins/shopengine/',
+      'icon'  => , //image url
+      'desc'  => esc_html__( 'Completely customize your WooCommerce WordPress.', 'metform' ),
     ]
-  ],
-  'shopengine/shopengine.php' => [
-    'name'  => esc_html__( 'ShopEngine', 'metform' ),
-    'url'   => 'https://wordpress.org/plugins/shopengine/',
-    'icon'  => , //image url
-    'desc'  => esc_html__( 'Completely customize your WooCommerce WordPress.', 'metform' ),
-	]
+  ]
 )
 ->call();
 
