@@ -527,10 +527,6 @@ class Apps
 				position: absolute;
 				bottom: 40px;
 			}
-			.wpmet-apps-wrapper .wpmet-single-plugin--install_plugin {
-				/* padding: 5px 20px 7px 20px;
-				margin-top: 23px; */
-			}
 
 			.wpmet-apps-wrapper .wpmet-single-plugin--install_plugin.wpmet-plugin-install-activate {
 				cursor: no-drop;
