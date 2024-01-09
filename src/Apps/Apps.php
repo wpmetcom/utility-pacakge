@@ -22,7 +22,7 @@ class Apps
 	private $menu_slug = '_wpmet_apps';
 	private $submenu_name = 'Apps';
 	private $plugins = [];
-	public $items_per_row = 4;
+	public $items_per_row = 6;
 	private $section_title = 'Take your website to the next level';
 	private $section_description = 'We have some plugins you can install to get most from Wordpress. These are absolute FREE to use.';
 
@@ -534,7 +534,7 @@ class Apps
 				background: rgba(42, 174, 20, 0.1);
 				color: #2AAE14;
 			}
-			@media (max-width: 1600px) {
+			@media (max-width: 2000px) {
 				.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
 					grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 				}
