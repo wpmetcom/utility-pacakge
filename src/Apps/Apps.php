@@ -22,7 +22,7 @@ class Apps
 	private $menu_slug = '_wpmet_apps';
 	private $submenu_name = 'Apps';
 	private $plugins = [];
-	private $items_per_row = 6;
+	public $items_per_row = 4;
 	private $section_title = 'Take your website to the next level';
 	private $section_description = 'We have some plugins you can install to get most from Wordpress. These are absolute FREE to use.';
 
@@ -414,7 +414,7 @@ class Apps
 	 * 
 	 * @since 1.0.0
 	 */
-	public static function enqueue_scripts() {
+	public function enqueue_scripts(){
 		?>
 		<style>
 			.wpmet-apps-wrapper{
@@ -469,18 +469,9 @@ class Apps
 						box-shadow: none;
 			}
 			.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
-				margin-left: -11px;
-				margin-right: -11px;
-				display: -webkit-box;
-				display: -ms-flexbox;
-				display: flex;
-				-webkit-box-pack: center;
-					-ms-flex-pack: center;
-						justify-content: center;
-			}
-			.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row > div {
-				padding: 11px;
-				width: 30%;
+				display: grid;
+				gap: 30px;
+				grid-template-columns: repeat(<?php echo esc_attr( $this->items_per_row ); ?>, 1fr)
 			}
 			.wpmet-apps-wrapper .wpmet-single-plugin {
 				background-color: #fff;
