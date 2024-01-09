@@ -473,7 +473,7 @@ class Apps
 			.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
 				display: grid;
 				gap: 30px;
-				grid-template-columns: repeat(<?php echo esc_attr( $this->items_per_row ); ?>, 1fr)
+				grid-template-columns: repeat(<?php echo esc_attr( $this->items_per_row ); ?>, minmax(200px, 1fr))
 			}
 			.wpmet-apps-wrapper .wpmet-single-plugin {
 				background-color: #fff;
@@ -534,6 +534,17 @@ class Apps
 				background: rgba(42, 174, 20, 0.1);
 				color: #2AAE14;
 			}
+			@media (max-width: 1500px) {
+				.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
+					grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				}
+			}
+			@media (max-width: 600px) {
+				.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
+					grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+				}
+			}
+
 
 		</style>
 		<script type="text/javascript">
