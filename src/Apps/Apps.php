@@ -22,7 +22,7 @@ class Apps
 	private $menu_slug = '_wpmet_apps';
 	private $submenu_name = 'Apps';
 	private $plugins = [];
-	public $items_per_row = 6;
+	public $items_per_row = 4;
 	private $section_title = 'Take your website to the next level';
 	private $section_description = 'We have some plugins you can install to get most from Wordpress. These are absolute FREE to use.';
 
@@ -324,6 +324,7 @@ class Apps
 						<div class="attr-col-lg-4 wpmet-single-plugin">
 							<div class="wpmet-single-wrapper">
 								<img class="wpmet-single-plugin--logo" src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr(isset( $plugin_data['name']) ? $plugin_data['name'] : '' ); ?>" title="<?php echo esc_attr( isset($plugin_data['name']) ? $plugin_data['name'] : '' ); ?>">
+								<h4 class="wpmet-single-plugin--name"><?php echo esc_html(isset($plugin_data['name']) ? $plugin_data['name'] : ''); ?></h4>
 								<p class="wpmet-single-plugin--description"><?php echo esc_html(isset($plugin_data['desc']) ? $plugin_data['desc'] : ''); ?></p>
 								<button data-installation_url="<?php echo esc_url( $this->installation_url( $plugin ) ); ?>" data-activation_url="<?php echo esc_url( $this->activation_url( $plugin ) ); ?>" data-plugin_status="<?php echo esc_attr( isset($plugin_data['status_class']) ? $plugin_data['status_class'] : '' ); ?>" data-action_url="<?php echo esc_url( $action_url ); ?>" class=" <?php echo esc_attr( $plugin_actvate ? 'activated' : '');  ?> wpmet-btn wpmet-single-plugin--install_plugin wpmet_apps_action_button"><?php echo esc_html( isset( $plugin_data['action_text'] ) ? $plugin_data['action_text'] : "Learn More" ); ?></button>
 							</div>
@@ -416,19 +417,16 @@ class Apps
 		?>
 		<style>
 			.wpmet-apps-wrapper{
-				padding: 30px;
+				padding: 35px 50px 0 30px;
 			}
 			.wpmet-apps-wrapper .wpmet-main-header--title {
-				margin-bottom: 15px;
-    			line-height: 50px;
 				color: #021343;
 				font-size: 40px;
+    			line-height: 50px;
 				line-height: 54px;
 				font-weight: normal;
-			}
-			.wpmet-apps-wrapper .wpmet-single-plugin .wpmet-single-wrapper button{
-				position: absolute;
-    			bottom: 20px;
+				margin: 0 0 3px 0;
+				padding: 0;
 			}
 			.wpmet-apps-wrapper .wpmet-main-header--title br {
 				display: none;
@@ -440,7 +438,7 @@ class Apps
 				margin: 0;
 			}
 			.wpmet-apps-wrapper .wpmet-main-header {
-				margin-bottom: 26px;
+				margin-bottom: 36px;
 			}
 
 			.wpmet-apps-wrapper .wpmet-main-header--title strong {
@@ -472,16 +470,16 @@ class Apps
 			}
 			.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
 				display: grid;
-				gap: 30px;
+				gap: 24px;
 				grid-template-columns: repeat(<?php echo esc_attr( $this->items_per_row ); ?>, minmax(200px, 1fr))
 			}
 			.wpmet-apps-wrapper .wpmet-single-plugin {
 				background-color: #fff;
 				border-radius: 6px;
-				-webkit-box-shadow: 0 30px 50px rgba(0, 10, 36, 0.1);
-						box-shadow: 0 30px 50px rgba(0, 10, 36, 0.1);
+				-webkit-box-shadow: 0 24px 40px rgb(0 10 36 / 6%);
+				box-shadow: 0 24px 40px rgb(0 10 36 / 6%);
 				position: relative;
-				padding: 30px 62px 36px 27px;
+				padding: 34px 40px 40px 40px;
 			}
 			.wpmet-apps-wrapper .wpmet-single-plugin--install {
 				color: #021343;
@@ -498,11 +496,11 @@ class Apps
 
 			.wpmet-apps-wrapper .wpmet-single-plugin--description {
 				color: #5D5E65;
-				font-size: 15px;
-				line-height: 22px;
+				font-size: 16px;
+				line-height: 24px;
 				font-weight: 400;
-				margin: 0;
-				padding-bottom:35px;
+				margin: 13px 0 71px 0;
+				padding: 0;
 			}
 
 			.wpmet-apps-wrapper .wpmet-single-plugin--description span {
@@ -513,12 +511,25 @@ class Apps
 
 			.wpmet-apps-wrapper .wpmet-single-plugin--logo {
 				margin-bottom: 12px;
-				max-width: 200px;
+				max-width: 60px;
 			}
 
+			.wpmet-apps-wrapper .wpmet-single-plugin--name {
+				display: block;
+				font-size: 1.6rem;
+				line-height: normal;
+				text-decoration: none;
+				margin: 0px;
+				font-weight: 600;
+				color: #021343;
+			}
+			.wpmet-apps-wrapper .wpmet-single-plugin .wpmet-single-wrapper button{
+				position: absolute;
+				bottom: 40px;
+			}
 			.wpmet-apps-wrapper .wpmet-single-plugin--install_plugin {
-				padding: 5px 20px 7px 20px;
-				margin-top: 23px;
+				/* padding: 5px 20px 7px 20px;
+				margin-top: 23px; */
 			}
 
 			.wpmet-apps-wrapper .wpmet-single-plugin--install_plugin.wpmet-plugin-install-activate {
