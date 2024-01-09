@@ -536,7 +536,7 @@ class Apps
 			}
 			@media (max-width: 2000px) {
 				.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
-					grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+					grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 				}
 			}
 			@media (max-width: 600px) {

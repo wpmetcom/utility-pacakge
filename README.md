@@ -82,7 +82,10 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
  */
 \Wpmet\UtilityPackage\Apps\Apps::instance()->init('metform')                # @text_domain
 ->set_parent_menu_slug('metform-menu')                                      # @plugin_slug
-->set_submenu_name('Apps')                                                  # @submenu_name
+->set_submenu_name('Apps')                                                  # @submenu_name (optional- default: Apps)
+->set_section_title('My Custom title')                                      # @section_title (optional)
+->set_section_description('My custom description')                          # @section_description (optional)
+->set_items_per_row(4)                                                      # @items_per_row (optional- default: 6)
 ->set_plugins(                                                              # @plugins
   [
     'getgenie/getgenie.php' => [
