@@ -495,9 +495,9 @@ class Apps
 			}
 
 			.wpmet-apps-wrapper .wpmet-single-plugin--description {
-				color: #5D5E65;
+				color: #000;
 				font-size: 16px;
-				line-height: 24px;
+				line-height: 25px;
 				font-weight: 400;
 				margin: 13px 0 71px 0;
 				padding: 0;
