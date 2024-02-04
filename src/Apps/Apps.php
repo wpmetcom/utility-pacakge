@@ -20,12 +20,13 @@ class Apps
 	private $text_domain;
 	private $parent_menu_slug;
 	private $menu_slug = '_wpmet_apps';
-	private $submenu_name = 'Apps';
+	private $submenu_name = 'Our Plugins';
 	private $plugins = [];
 	public $items_per_row = 4;
 	private $section_title = 'Take your website to the next level';
 	private $section_description = 'We have some plugins you can install to get most from Wordpress. These are absolute FREE to use.';
-
+	private $installed_plugins = [];
+	private $activated_plugins = [];
 	/**
 	 * Creates and returns an instance of the class.
 	 *
@@ -53,6 +54,8 @@ class Apps
 	public function init( $text_domain ) {
 		
 		$this->set_text_domain( $text_domain );
+		$this->collect_installed_plugins();
+		$this->collect_activated_plugins();
 		
 		add_action('admin_head', [$this, 'enqueue_scripts']);
 
@@ -178,66 +181,6 @@ class Apps
 	}
 
 	/**
-	 * Retrieves the plugin slug from a given name.
-	 *
-	 * @param string $name The name of the plugin.
-	 * @return string|null The plugin slug if found, otherwise null.
-	 * 
-	 * @since 1.0.0
-	 */
-	public function get_plugin_slug( $name ) {
-
-		$split = explode( '/', $name );
-
-		return isset( $split[0] ) ? $split[0] : null;
-	}
-
-	/**
-	 * Generates an installation URL for a given plugin name.
-	 *
-	 * @param string $plugin_name The name of the plugin.
-	 * @return string The installation URL for the plugin.
-	 * 
-	 * @since 1.0.0
-	 */
-	public function installation_url( $plugin_name ) {
-		$action     = 'install-plugin';
-		$plugin_slug = $this->get_plugin_slug( $plugin_name );
-
-		return wp_nonce_url(
-			add_query_arg(
-				array(
-					'action' => $action,
-					'plugin' => $plugin_slug
-				),
-				admin_url( 'update.php' )
-			),
-			$action . '_' . $plugin_slug
-		);
-	}
-
-	/**
-	 * Generates the activation URL for a plugin.
-	 *
-	 * @param string $plugin_name The name of the plugin.
-	 * @return string The activation URL for the plugin.
-	 * 
-	 * @since 1.0.0
-	 */
-	public function activation_url( $plugin_name ) {
-
-		return wp_nonce_url( add_query_arg(
-			array(
-				'action'        => 'activate',
-				'plugin'        => $plugin_name,
-				'plugin_status' => 'all',
-				'paged'         => '1&s',
-			),
-			admin_url( 'plugins.php' )
-		), 'activate-plugin_' . $plugin_name );
-	}
-
-	/**
 	 * Registers a menu in the WordPress admin dashboard.
 	 *
 	 * @return void
@@ -249,7 +192,7 @@ class Apps
 		add_submenu_page( 
 			$this->parent_menu_slug, 
 			$this->submenu_name, 
-			$this->submenu_name, 
+			'<span style="color: #2fbf17; font-weight: bold">' . $this->submenu_name . '</span>', 
 			'manage_options', 
 			$this->text_domain . $this->menu_slug, 
 			[$this, 'wpmet_apps_renderer'] 
@@ -284,6 +227,164 @@ class Apps
 	}
 
 	/**
+	 * Activation URL
+	 * 
+	 * @since 1.0.0
+	 * @param string $pluginName The name of the plugin.
+	 * @return string
+	 */
+	public function activation_url( $pluginName ) {
+
+		return wp_nonce_url( add_query_arg(
+			array(
+				'action'        => 'activate',
+				'plugin'        => $pluginName,
+				'plugin_status' => 'all',
+				'paged'         => '1&s',
+			),
+			admin_url( 'plugins.php' )
+		), 'activate-plugin_' . $pluginName );
+	}
+
+	/**
+	 * Installation URL
+	 * 
+	 * @since 1.0.0
+	 * @param string $pluginName The name of the plugin.
+	 * @return string
+	 */
+	public function installation_url( $pluginName ) {
+		$action     = 'install-plugin';
+		$pluginSlug = $this->get_plugin_slug( $pluginName );
+
+		return wp_nonce_url(
+			add_query_arg(
+				array(
+					'action' => $action,
+					'plugin' => $pluginSlug
+				),
+				admin_url( 'update.php' )
+			),
+			$action . '_' . $pluginSlug
+		);
+	}
+
+	/**
+	 * Get plugin slug
+	 * 
+	 * @since 1.0.0
+	 * @param string $name The name of the plugin.
+	 * @return string
+	 */
+	public function get_plugin_slug( $name ) {
+		
+		$split = explode( '/', $name );
+
+		return isset( $split[0] ) ? $split[0] : null;
+	}
+
+	/**
+	 * Activated URL
+	 * 
+	 * @since 1.0.0
+	 * @param string $pluginName The name of the plugin.
+	 * @return string
+	 */
+	public function activated_url( $pluginName ) {
+		return add_query_arg(
+			array(
+				'page' => $this->get_plugin_slug( $pluginName ),
+			),
+			admin_url( 'admin.php' ) );
+	}
+
+	/**
+	 * Collect installed plugins
+	 * 
+	 * @since 1.0.0
+	 * @return void
+	 */
+	private function collect_installed_plugins() {
+
+		if( !function_exists('get_plugins') ) {
+			include_once  ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		foreach ( get_plugins() as $key => $plugin ) {
+			array_push( $this->installed_plugins, $key );
+		}
+	}
+
+	/**
+	 * Collect activated plugins
+	 * 
+	 * @since 1.0.0
+	 * @return void
+	 */
+	private function collect_activated_plugins() {
+		foreach ( apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) as $plugin ) {
+			array_push( $this->activated_plugins, $plugin );
+		}
+	}
+
+	/**
+	 * Check installed plugin
+	 * 
+	 * @since 1.0.0
+	 * @param string $name The name of the plugin.
+	 * @return bool
+	 */
+	public function check_installed_plugin( $name ) {
+		return in_array( $name, $this->installed_plugins );
+	}
+
+	/**
+	 * Check activated plugin
+	 * 
+	 * @since 1.0.0
+	 * @param string $name The name of the plugin.
+	 * @return bool
+	 */
+	public function check_activated_plugin( $name ) {
+		return in_array( $name, $this->activated_plugins );
+	}
+
+	/**
+	 * Get plugin status
+	 * 
+	 * @since 1.0.0
+	 * @param string $name The name of the plugin.
+	 * @return array
+	 */
+	public function get_plugin_status( $name ) {
+		$data = [
+			"url"              => "",
+			"activation_url"   => "",
+			"installation_url" => "",
+			"title"            => "",
+			"status"           => "",
+		];
+
+		if ( $this->check_installed_plugin( $name ) ) {
+			if ( $this->check_activated_plugin( $name ) ) {
+				$data['title']  = __( 'Activated', 'metform' );
+				$data['status'] = "activated";
+			} else {
+				$data['title']          = __( 'Activate Now', 'metform' );
+				$data['status']         = 'installed';
+				$data['activation_url'] = $this->activation_url( $name );
+			}
+		} else {
+			$data['title']            = __( 'Install Now', 'metform' );
+			$data['status']           = 'not_installed';
+			$data['installation_url'] = $this->installation_url( $name );
+			$data['activation_url']   = $this->activation_url( $name );
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Display the Wpmet apps section.
 	 * 
 	 * @return void
@@ -291,120 +392,54 @@ class Apps
 	 * @since 1.0.0
 	 */
 	public function wpmet_apps_renderer() {
-
-		$all_plugins = get_plugins();
-		$wpmet_plugins = $this->get_wpmet_plugins();
-		$can_install_plugins  = current_user_can( 'install_plugins' );
-		$can_activate_plugins = current_user_can( 'activate_plugins' );			
 		?>
-		<div class="wpmet-apps-wrapper">
-			<div class="wpmet-main-header">
-				<h1 class="wpmet-main-header--title"><strong><?php echo esc_html( $this->section_title ); ?></strong></h1>
-				<p class="wpmet-main-header--description"><?php echo esc_html( $this->section_description ); ?></p>
+		<div class="wpmet-onboard-dashboard">
+			<div class="wpmet-onboard-main-header">
+				<h1 class="wpmet-onboard-main-header--title"><strong><?php echo esc_html($this->section_title); ?></strong></h1>
+				<p class="wpmet-onboard-main-header--description"><?php echo esc_html($this->section_description); ?></p>
 			</div>
-			<div class="wpmet-plugin-list">
-				<div class="wpmet-apps wpmet-plugins-row">
+
+			<div class="wpmet-onboard-plugin-list">
+				<div class="attr-row">
 					<?php
-					foreach ( $wpmet_plugins as $plugin => $details ) :
+					foreach( $this->plugins as $key => $plugin ):
+						$img_url = isset($plugin['icon']) ? $plugin['icon'] : '#';
+						$plugin_name = isset($plugin['name']) ? $plugin['name'] : '';
+						$plugin_desc = isset($plugin['desc']) ? $plugin['desc'] : '';
+						$plugin_docs = isset($plugin['docs']) ? $plugin['docs'] : '#';
 
-						$plugin_data = $this->get_plugin_data( $plugin, $details, $all_plugins );
-						$plugin_ready_to_activate = $can_activate_plugins && isset( $plugin_data['status_class'] ) && $plugin_data['status_class'] === 'status-installed';
-						$plugin_not_activated = ! isset( $plugin_data['status_class'] ) || $plugin_data['status_class'] !== 'status-active';
-						$plugin_actvate = isset( $plugin_data['status_class'] ) && $plugin_data['status_class'] === 'status-active';
-						$image_url = isset( $plugin_data['icon'] ) ? $plugin_data['icon'] : '#';
-						$action_url = '#';						
+					?>
+					<div class="attr-col-lg-4">
+						<div class="wpmet-onboard-single-plugin">
+							<label>
+								<img class="wpmet-onboard-single-plugin--logo" src="<?php echo esc_url($img_url); ?>" alt="<?php echo esc_attr($plugin_name);?>">
+								<h4 class="wpmet-single-plugin--name"><?php echo esc_html($plugin_name); ?></h4>
+								<p class="wpmet-onboard-single-plugin--description"><?php echo esc_html($plugin_desc); ?></p>
+								<?php 
 
-						if( $plugin_ready_to_activate ){
-							$action_url = $this->activation_url( $plugin );
-						}elseif( $plugin_not_activated ) {
-							$action_url = $this->installation_url( $plugin );
-						}
-						
-						?>
-						<div class="attr-col-lg-4 wpmet-single-plugin">
-							<div class="wpmet-single-wrapper">
-								<img class="wpmet-single-plugin--logo" src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr(isset( $plugin_data['name']) ? $plugin_data['name'] : '' ); ?>" title="<?php echo esc_attr( isset($plugin_data['name']) ? $plugin_data['name'] : '' ); ?>">
-								<h4 class="wpmet-single-plugin--name"><?php echo esc_html(isset($plugin_data['name']) ? $plugin_data['name'] : ''); ?></h4>
-								<p class="wpmet-single-plugin--description"><?php echo esc_html(isset($plugin_data['desc']) ? $plugin_data['desc'] : ''); ?></p>
-								<button data-installation_url="<?php echo esc_url( $this->installation_url( $plugin ) ); ?>" data-activation_url="<?php echo esc_url( $this->activation_url( $plugin ) ); ?>" data-plugin_status="<?php echo esc_attr( isset($plugin_data['status_class']) ? $plugin_data['status_class'] : '' ); ?>" data-action_url="<?php echo esc_url( $action_url ); ?>" class=" <?php echo esc_attr( $plugin_actvate ? 'activated' : '');  ?> wpmet-btn wpmet-single-plugin--install_plugin wpmet_apps_action_button"><?php echo esc_html( isset( $plugin_data['action_text'] ) ? $plugin_data['action_text'] : "Learn More" ); ?></button>
-							</div>
+								$plugin_data = $this->get_plugin_status( $key );
+								$plugin_status = isset( $plugin_data['status'] ) ?  $plugin_data['status']  : '';
+								$plugin_activation_url = isset( $plugin_data['activation_url'] ) ? $plugin_data['activation_url'] : '';
+								$plugin_installation_url = isset( $plugin_data['installation_url'] ) ? $plugin_data['installation_url'] : '';
+								$plugin_status_label = isset( $plugin_data['status'] ) ? ( $plugin_data['status'] == 'activated' ? 'activated' : '' ) : '';
+								$plugin_status_title = isset( $plugin_data['title'] ) ? $plugin_data['title'] : esc_html__('Activate', 'metform');
+					
+								?>
+								<div class="wpmet-apps-footer">
+									<a data-plugin_status="<?php echo esc_attr($plugin_status); ?>" data-activation_url="<?php echo esc_url($plugin_activation_url); ?>" href="<?php echo esc_url($plugin_installation_url); ?>" class="wpmet-pro-btn wpmet-onboard-single-plugin--install_plugin <?php echo esc_attr($plugin_status_label); ?>"><?php echo esc_html($plugin_status_title); ?></a>
+									<a target="_blank" href="<?php echo esc_url($plugin_docs); ?>"> <?php echo esc_html__('Read Docs', 'metform'); ?> </a>
+								</div>
+							</label>
 						</div>
-						
+					</div>
 					<?php endforeach; ?>
 				</div>
 			</div>
 		</div>
-		<?php
+	<?php
 	}
 
 	/**
-	 * Retrieves the list of WP Met plugins for installation.
-	 *
-	 * This function returns the list of WP Met plugins for installation by applying the 'wpmet_plugins_for_install'
-	 * filter to the `$this->plugins` array.
-	 *
-	 * @return array The list of WP Met plugins for installation.
-	 * 
-	 * @since 1.0.0
-	 */
-	protected function get_wpmet_plugins() {
-
-		return apply_filters( 'wpmet_plugins_for_install', $this->plugins );
-	}
-
-	/**
-	 * Get wpmet plugins details data.
-	 *
-	 * @param string $plugin Plugin slug.
-	 * @param array  $details Plugin details.
-	 * @param array  $all_plugins List of all plugins.
-	 *
-	 * @return array Plugins data.
-	 * 
-	 * @since 1.0.0
-	 */
-	protected function get_plugin_data( $plugin, $details, $all_plugins ) {
-
-		$plugin_data = [];
-
-		// Check if the plugin is installed.
-		if ( array_key_exists( $plugin, $all_plugins ) ) {
-			
-			// Check if the plugin is active.
-			if ( is_plugin_active( $plugin ) ) {
-				
-				$plugin_data['status_class'] = 'status-active';
-				$plugin_data['status_text']  = esc_html__( 'Active', $this->text_domain );
-				$plugin_data['action_class'] = $plugin_data['status_class'] . ' button button-secondary disabled';
-				$plugin_data['action_text']  = esc_html__( 'Activated', $this->text_domain );
-				$plugin_data['plugin_src']   = esc_attr( $plugin );
-
-			} else {
-
-				// Plugin is not active.
-				$plugin_data['status_class'] = 'status-installed';
-				$plugin_data['status_text']  = esc_html__( 'Inactive', $this->text_domain );
-				$plugin_data['action_class'] = $plugin_data['status_class'] . ' button button-secondary';
-				$plugin_data['action_text']  = esc_html__( 'Activate Now', $this->text_domain );
-				$plugin_data['plugin_src']   = esc_attr( $plugin );
-
-			}
-		} else {
-
-			// Plugin is not installed.
-			$plugin_data['status_class'] = 'status-missing';
-			$plugin_data['status_text'] = esc_html__( 'Not Installed', $this->text_domain );
-			$plugin_data['action_class'] = $plugin_data['status_class'] . ' button button-primary';
-			$plugin_data['action_text']  = esc_html__( 'Install Now', $this->text_domain );
-
-		}
-
-		$plugin_data = array_merge( $plugin_data, $details );
-
-		return $plugin_data;
-	}
-
-    /**
 	 * Enqueues scripts for the plugin.
 	 *
 	 * This function is responsible for enqueueing the necessary JavaScript scripts for the plugin.
@@ -416,35 +451,57 @@ class Apps
 	public function enqueue_scripts(){
 		?>
 		<style>
-			.wpmet-apps-wrapper{
-				padding: 35px 50px 0 30px;
+			.wpmet-onboard-dashboard .wpmet-onboard-plugin-list .attr-row {
+				margin-left: -11px;
+				margin-right: -11px;
+				display: -webkit-box;
+				display: grid;
+				gap: 5px;
+				grid-template-columns: repeat(<?php echo esc_attr($this->items_per_row); ?>, 1fr);
 			}
-			.wpmet-apps-wrapper .wpmet-main-header--title {
+			.wpmet-onboard-dashboard .wpmet-onboard-plugin-list .attr-row > div {
+				padding: 11px;
+			}
+			.wpmet-onboard-main-header{
+				margin-bottom: 30px;
+			}
+			.wpmet-onboard-dashboard .wpmet-onboard-main-header--title{
 				color: #021343;
 				font-size: 40px;
-    			line-height: 50px;
 				line-height: 54px;
 				font-weight: normal;
 				margin: 0 0 3px 0;
 				padding: 0;
 			}
-			.wpmet-apps-wrapper .wpmet-main-header--title br {
-				display: none;
+			.wpmet-onboard-dashboard .wpmet-onboard-main-header--title strong{
+				font-weight: 700;
 			}
-			.wpmet-apps-wrapper .wpmet-main-header--description {
+			.wpmet-onboard-dashboard .wpmet-onboard-main-header--description{
 				color: #5d5e65;
 				font-size: 16px;
 				line-height: 26px;
 				margin: 0;
 			}
-			.wpmet-apps-wrapper .wpmet-main-header {
-				margin-bottom: 36px;
+			[class^="attr"] {
+				-webkit-box-sizing: border-box;
+						box-sizing: border-box;
 			}
-
-			.wpmet-apps-wrapper .wpmet-main-header--title strong {
-				font-weight: 700;
+			.wpmet-onboard-dashboard {
+				background-color: #F5F6F9;
+				margin-left: -20px;
+				padding: 30px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 1;
+				width: calc(100% + 20px);
+				-webkit-box-sizing: border-box;
+						box-sizing: border-box;
+				min-height: calc(100vh - 32px);
+				padding-top: 30px;
+				padding-bottom: 100px;
 			}
-			.wpmet-apps-wrapper .wpmet-btn {
+			.wpmet-onboard-dashboard .wpmet-pro-btn {
 				color: #3E77FC;
 				font-size: 15px;
 				line-height: 18px;
@@ -457,31 +514,40 @@ class Apps
 				transition: all .4s;
 				text-decoration: none;
 				display: inline-block;
-				cursor: pointer;
 			}
-			.wpmet-apps-wrapper .wpmet-btn:hover {
+			.wpmet-onboard-dashboard .wpmet-pro-btn:hover {
 				background-color: #3E77FC;
 				color: #fff;
 			}
-			.wpmet-apps-wrapper .wpmet-btn:focus {
+			.wpmet-onboard-dashboard .wpmet-pro-btn:focus {
 				border-color: #3E77FC;
 				-webkit-box-shadow: none;
 						box-shadow: none;
 			}
-			.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
-				display: grid;
-				gap: 24px;
-				grid-template-columns: repeat(<?php echo esc_attr( $this->items_per_row ); ?>, minmax(200px, 1fr))
+			.wpmet-onboard-dashboard .wpmet-pro-btn .icon {
+				position: relative;
+				top: 1px;
 			}
-			.wpmet-apps-wrapper .wpmet-single-plugin {
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin {
 				background-color: #fff;
 				border-radius: 6px;
-				-webkit-box-shadow: 0 24px 40px rgb(0 10 36 / 6%);
-				box-shadow: 0 24px 40px rgb(0 10 36 / 6%);
+				-webkit-box-shadow: 0 30px 50px rgba(0, 10, 36, 0.1);
+						box-shadow: 0 30px 50px rgba(0, 10, 36, 0.1);
 				position: relative;
-				padding: 34px 40px 40px 40px;
+				min-height: 320px;
 			}
-			.wpmet-apps-wrapper .wpmet-single-plugin--install {
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin label {
+				display: block;
+				padding: 30px 40px 36px 30px;
+				cursor: default;
+			}
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin .badge--featured {
+				position: absolute;
+				right: -20px;
+				top: -30px;
+				height: 100px;
+			}
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--install {
 				color: #021343;
 				font-size: 15px;
 				font-weight: 500;
@@ -493,28 +559,18 @@ class Apps
 				position: relative;
 				text-decoration: none;
 			}
-
-			.wpmet-apps-wrapper .wpmet-single-plugin--description {
-				color: #000;
-				font-size: 16px;
-				line-height: 25px;
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--install i {
+				padding-left: 9px;
+				font-weight: bold;
+			}
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--description {
+				color: #5D5E65;
+				font-size: 15px;
+				line-height: 22px;
 				font-weight: 400;
-				margin: 13px 0 71px 0;
-				padding: 0;
+				margin: 0;
 			}
-
-			.wpmet-apps-wrapper .wpmet-single-plugin--description span {
-				background: #d7a1f973;
-				color: #021343;
-				font-weight: 500;
-			}
-
-			.wpmet-apps-wrapper .wpmet-single-plugin--logo {
-				margin-bottom: 12px;
-				max-width: 60px;
-			}
-
-			.wpmet-apps-wrapper .wpmet-single-plugin--name {
+			.wpmet-onboard-dashboard .wpmet-single-plugin--name {
 				display: block;
 				font-size: 1.6rem;
 				line-height: normal;
@@ -522,67 +578,131 @@ class Apps
 				margin: 0px;
 				font-weight: 600;
 				color: #021343;
+				margin-top: 5px;
+				margin-bottom: 15px;
 			}
-			.wpmet-apps-wrapper .wpmet-single-plugin .wpmet-single-wrapper button{
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--description span {
+				background: #d7a1f973;
+				color: #021343;
+				font-weight: 500;
+			}
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--logo {
+				max-width: 60px;
+			}
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--install_plugin {
+				padding: 5px 20px 7px 20px;
+				margin-top: 23px;
+			}
+			.wpmet-onboard-dashboard .wpmet-apps-footer{
 				position: absolute;
-				bottom: 40px;
+				bottom: 30px;
+				width: 80%;
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
 			}
-
-			.wpmet-apps-wrapper .wpmet-single-plugin--install_plugin.wpmet-plugin-install-activate {
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--install_plugin.wpmet-plugin-install-activate {
 				cursor: no-drop;
 				background-color: #E8E9EF;
 				color: #5D5E65;
 				border-color: #E8E9EF;
 			}
-
-			.wpmet-apps-wrapper .wpmet-single-plugin--install_plugin.activated {
+			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--install_plugin.activated {
 				cursor: default;
 				border: 1px solid #2AAE1433;
 				background: rgba(42, 174, 20, 0.1);
 				color: #2AAE14;
 			}
+			.wpmet-onboard-dashboard .wpmet-onboard-tut-term--help {
+				margin: 0;
+				color: #021343;
+				font-size: 14px;
+				font-weight: 500;
+				line-height: 26px;
+				margin-top: 10px;
+				cursor: pointer;
+			}
+			.wpmet-onboard-dashboard .wpmet-onboard-tut-term--help:hover {
+				color: #3E77FC;
+			}
+			.wpmet-onboard-dashboard .wpmet-onboard-tut-term--help.active {
+				color: #3E77FC;
+			}
 			@media (max-width: 2000px) {
-				.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
+				.wpmet-onboard-dashboard .wpmet-onboard-plugin-list .attr-row {
 					grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 				}
 			}
-			@media (max-width: 600px) {
-				.wpmet-apps-wrapper .wpmet-plugin-list .wpmet-plugins-row {
+			@media (max-width: 500px) {
+				.wpmet-onboard-dashboard .wpmet-onboard-plugin-list .attr-row {
 					grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
 				}
 			}
-
-
+			@media (max-width: 991px) {
+				body .wpmet-onboard-dashboard img {
+					max-width: 100%;
+				}
+			}
+			@media (max-width: 480px) {
+				body .wpmet-onboard-dashboard .wpmet-onboard-single-plugin label {
+					-webkit-box-align: center;
+						-ms-flex-align: center;
+							align-items: center;
+				}
+			}
 		</style>
+
 		<script type="text/javascript">
 			jQuery( document ).ready( function( $ ) {
-				$(document).on('click', '.wpmet_apps_action_button', function(event){
-					
-					let $button = $(this);
-					let action_url = $button.data('action_url');
-					let plugin_status = $button.data('plugin_status');
-	
-					if(plugin_status === 'status-missing' || plugin_status === 'status-installed'){
-						
-						$.ajax({
-							type : "GET",
-							url : action_url,
-							beforeSend: () => {
-								plugin_status === 'status-missing' ? $button.text('Installing...') : $button.text('Activating...');
-							},
-							success: (response) => {
-
-								if(plugin_status === 'status-missing'){
-									$button.text('Activate Now');
-								}else{
-									$button.text('Activated')
-								}
-								location.reload();
+					// installing plugin
+				function wpmet_install_active_plugin(ajaxurl, success_callback, beforeText, successText){
+					$.ajax({
+						type : "GET",
+						url : ajaxurl,
+						beforeSend: () => {
+							$(this).addClass('wpmet-plugin-install-activate');
+							if(beforeText){
+								$(this).html(beforeText);
 							}
-						});
+						},
+						success: (response) => {
+							$(this).removeClass('wpmet-plugin-install-activate');
+							
+							if(ajaxurl.indexOf('action=activate') >= 0){
+								$(this).addClass('activated');
+							}
+
+							$(this).html(successText);
+
+							if(success_callback){success_callback();}
+						}
+				});
+				}
+
+				$('.wpmet-onboard-single-plugin--install_plugin').on('click', function(e){
+					e.preventDefault();
+					var installation_url = $(this).attr('href'),
+						activation_url = $(this).attr('data-activation_url'),
+						plugin_status = $(this).data('plugin_status');
+
+					if($(this).hasClass('wpmet-plugin-install-activate') || $(this).hasClass('activated')){
+						return false;
+					}
+
+					if(plugin_status == 'not_installed'){
+						wpmet_install_active_plugin.call(this, installation_url, () => {
+							wpmet_install_active_plugin.call(this, activation_url, null, 'Activating...', 'Activated');
+						}, 'Installing...', 'Installed');
+					} else if (plugin_status == 'installed') {
+						wpmet_install_active_plugin.call(this, activation_url, null, 'Activating...', 'Activated');
 					}
 				});
-			} );
+
+				jQuery('.wpmet-onboard-tut-term--help').on('click', function(){
+					$(this).toggleClass('active').prev().toggleClass('active');
+				});
+
+			});
 		</script>
 		<?php
 	}
