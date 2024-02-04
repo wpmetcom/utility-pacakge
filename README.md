@@ -82,7 +82,7 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
  */
 \Wpmet\UtilityPackage\Apps\Apps::instance()->init('metform')                # @text_domain
 ->set_parent_menu_slug('metform-menu')                                      # @plugin_slug
-->set_submenu_name('Apps')                                                  # @submenu_name (optional- default: Apps)
+->set_submenu_name('Our Plugins')                                                  # @submenu_name (optional- default: Apps)
 ->set_section_title('My Custom title')                                      # @section_title (optional)
 ->set_section_description('My custom description')                          # @section_description (optional)
 ->set_items_per_row(4)                                                      # @items_per_row (optional- default: 6)
@@ -93,12 +93,14 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
       'url'   => 'htages_urtps://wordpress.org/plugins/getgenie/',
       'icon'  => , //image url,
       'desc'  => esc_html__( 'GetGenie is an AI-powered Content & SEO Assistant. It will assist you in adding a Social Login, Social Counter, and Social Login to your website.', 'metform' ),
+      'docs' => 'https://getgenie.ai/docs/',
     ],
     'shopengine/shopengine.php' => [
       'name'  => esc_html__( 'ShopEngine', 'metform' ),
       'url'   => 'https://wordpress.org/plugins/shopengine/',
       'icon'  => , //image url
       'desc'  => esc_html__( 'Completely customize your WooCommerce WordPress.', 'metform' ),
+      'docs' => 'https://wpmet.com/doc/shopengine/',
     ]
   ]
 )
