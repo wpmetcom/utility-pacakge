@@ -367,15 +367,15 @@ class Apps
 
 		if ( $this->check_installed_plugin( $name ) ) {
 			if ( $this->check_activated_plugin( $name ) ) {
-				$data['title']  = __( 'Activated', 'metform' );
+				$data['title']  = __( 'Activated', $this->text_domain );
 				$data['status'] = "activated";
 			} else {
-				$data['title']          = __( 'Activate Now', 'metform' );
+				$data['title']          = __( 'Activate Now', $this->text_domain );
 				$data['status']         = 'installed';
 				$data['activation_url'] = $this->activation_url( $name );
 			}
 		} else {
-			$data['title']            = __( 'Install Now', 'metform' );
+			$data['title']            = __( 'Install Now', $this->text_domain );
 			$data['status']           = 'not_installed';
 			$data['installation_url'] = $this->installation_url( $name );
 			$data['activation_url']   = $this->activation_url( $name );
@@ -422,12 +422,12 @@ class Apps
 								$plugin_activation_url = isset( $plugin_data['activation_url'] ) ? $plugin_data['activation_url'] : '';
 								$plugin_installation_url = isset( $plugin_data['installation_url'] ) ? $plugin_data['installation_url'] : '';
 								$plugin_status_label = isset( $plugin_data['status'] ) ? ( $plugin_data['status'] == 'activated' ? 'activated' : '' ) : '';
-								$plugin_status_title = isset( $plugin_data['title'] ) ? $plugin_data['title'] : esc_html__('Activate', 'metform');
+								$plugin_status_title = isset( $plugin_data['title'] ) ? $plugin_data['title'] : esc_html__('Activate', $this->text_domain);
 					
 								?>
 								<div class="wpmet-apps-footer">
 									<a data-plugin_status="<?php echo esc_attr($plugin_status); ?>" data-activation_url="<?php echo esc_url($plugin_activation_url); ?>" href="<?php echo esc_url($plugin_installation_url); ?>" class="wpmet-pro-btn wpmet-onboard-single-plugin--install_plugin <?php echo esc_attr($plugin_status_label); ?>"><?php echo esc_html($plugin_status_title); ?></a>
-									<a target="_blank" href="<?php echo esc_url($plugin_docs); ?>"> <?php echo esc_html__('Read Docs', 'metform'); ?> </a>
+									<a target="_blank" href="<?php echo esc_url($plugin_docs); ?>"> <?php echo esc_html__('Read Docs', $this->text_domain); ?> </a>
 								</div>
 							</label>
 						</div>
