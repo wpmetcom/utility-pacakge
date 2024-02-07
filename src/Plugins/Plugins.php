@@ -1,6 +1,6 @@
 <?php
 
-namespace Wpmet\UtilityPackage\Apps;
+namespace Wpmet\UtilityPackage\Plugins;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -8,13 +8,12 @@ defined( 'ABSPATH' ) || exit;
  * Description: Wpmet Apps class. This class is used to display the wpmet other plugins
  * 
  * @package Wpmet\UtilityPackage
- * @subpackage Wpmet\UtilityPackage\Apps
+ * @subpackage Wpmet\UtilityPackage\Plugins
  * @author Wpmet
  * 
  * @since 1.0.0
  */
-class Apps
-{
+class Plugins {
 
 	private static $instance;
 	private $text_domain;
@@ -406,8 +405,7 @@ class Apps
 						$img_url = isset($plugin['icon']) ? $plugin['icon'] : '#';
 						$plugin_name = isset($plugin['name']) ? $plugin['name'] : '';
 						$plugin_desc = isset($plugin['desc']) ? $plugin['desc'] : '';
-						$plugin_docs = isset($plugin['docs']) ? $plugin['docs'] : '#';
-
+						$plugin_docs = isset($plugin['docs']) ? $plugin['docs'] : '';
 					?>
 					<div class="attr-col-lg-4">
 						<div class="wpmet-onboard-single-plugin">
@@ -416,18 +414,32 @@ class Apps
 								<h4 class="wpmet-single-plugin--name"><?php echo esc_html($plugin_name); ?></h4>
 								<p class="wpmet-onboard-single-plugin--description"><?php echo esc_html($plugin_desc); ?></p>
 								<?php 
-
 								$plugin_data = $this->get_plugin_status( $key );
 								$plugin_status = isset( $plugin_data['status'] ) ?  $plugin_data['status']  : '';
 								$plugin_activation_url = isset( $plugin_data['activation_url'] ) ? $plugin_data['activation_url'] : '';
 								$plugin_installation_url = isset( $plugin_data['installation_url'] ) ? $plugin_data['installation_url'] : '';
 								$plugin_status_label = isset( $plugin_data['status'] ) ? ( $plugin_data['status'] == 'activated' ? 'activated' : '' ) : '';
 								$plugin_status_title = isset( $plugin_data['title'] ) ? $plugin_data['title'] : esc_html__('Activate', $this->text_domain);
-					
 								?>
 								<div class="wpmet-apps-footer">
-									<a data-plugin_status="<?php echo esc_attr($plugin_status); ?>" data-activation_url="<?php echo esc_url($plugin_activation_url); ?>" href="<?php echo esc_url($plugin_installation_url); ?>" class="wpmet-pro-btn wpmet-onboard-single-plugin--install_plugin <?php echo esc_attr($plugin_status_label); ?>"><?php echo esc_html($plugin_status_title); ?></a>
-									<a target="_blank" href="<?php echo esc_url($plugin_docs); ?>"> <?php echo esc_html__('Read Docs', $this->text_domain); ?> </a>
+									<?php
+									echo sprintf(
+										'<a data-plugin_status="%1$s" data-activation_url="%2$s" href="%3$s" class="wpmet-pro-btn wpmet-onboard-single-plugin--install_plugin %4$s">%5$s</a>',
+										esc_attr($plugin_status),
+										esc_url($plugin_activation_url),
+										esc_url($plugin_installation_url),
+										esc_attr($plugin_status_label),
+										esc_html($plugin_status_title)
+									);
+
+									if( !empty($plugin_docs) ) :
+										echo sprintf(
+											'<a target="_blank" href="%1$s" class="wpmet-onboard-tut-term--help">%2$s</a>',
+											esc_url($plugin_docs),
+											esc_html__('Read Docs', $this->text_domain)
+										);
+									endif;
+									?>
 								</div>
 							</label>
 						</div>
@@ -591,7 +603,6 @@ class Apps
 			}
 			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--install_plugin {
 				padding: 5px 20px 7px 20px;
-				margin-top: 23px;
 			}
 			.wpmet-onboard-dashboard .wpmet-apps-footer{
 				position: absolute;
@@ -600,6 +611,8 @@ class Apps
 				display: flex;
 				justify-content: space-between;
 				align-items: baseline;
+				background: #fff;
+				padding-top: 5px;
 			}
 			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--install_plugin.wpmet-plugin-install-activate {
 				cursor: no-drop;
