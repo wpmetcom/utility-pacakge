@@ -77,6 +77,76 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
 ->set_condition(true)                                                       # @check_conditions
 ->call();
 
+/**
+ * Show our plugins menu for others wpmet plugins
+ */
+\Wpmet\UtilityPackage\Plugins\Plugins::instance()->init('metform')                # @text_domain
+->set_parent_menu_slug('metform-menu')                                      # @plugin_slug
+->set_submenu_name('Our Plugins')                                                  # @submenu_name (optional- default: Our Plugins)
+->set_section_title('My Custom title')                                      # @section_title (optional)
+->set_section_description('My custom description')                          # @section_description (optional)
+->set_items_per_row(4)                                                      # @items_per_row (optional- default: 6)
+->set_plugins(                                                              # @plugins
+  [
+	'elementskit-lite/elementskit-lite.php' => [
+		'name' => esc_html__('ElementsKit Elementor addons', 'metform'),
+		'url'  => 'https://wordpress.org/plugins/elementskit-lite/',
+		'icon' => 'https://ps.w.org/elementskit-lite/assets/icon-256x256.gif?rev=2518175',
+		'desc' => esc_html__('ElementsKit Elementor addons is an ultimate and all-in-one addons for Elementor Page Builder. It includes the most comprehensive modules, such as Header Footer Builder, Mega Menu Builder, Layout template Library, etc.', 'metform'),
+		'docs' => 'https://wpmet.com/docs/elementskit/',
+	],
+	'shopengine/shopengine.php' => [
+		'name' => esc_html__('Shopengine', 'metform'),
+		'url'  => 'https://wordpress.org/plugins/shopengine/',
+		'icon' => 'https://ps.w.org/shopengine/assets/icon-256x256.gif?rev=2505061',
+		'desc' => esc_html__('GetGenie is an AI-powered Content & SEO Assistant. It will assist you in adding a Social Login, Social Counter, and Social Login to your website.', 'metform'),
+		'docs' => 'https://wpmet.com/doc/shopengine/',
+	],
+	'getgenie/getgenie.php' => [
+		'name' => esc_html__('Getgenie', 'metform'),
+		'url'  => 'https://wordpress.org/plugins/getgenie/',
+		'icon' => 'https://ps.w.org/getgenie/assets/icon-256x256.gif?rev=2798355',
+		'desc' => esc_html__('GetGenie is an AI-powered Content & SEO Assistant. It will assist you in adding a Social Login, Social Counter, and Social Login to your website.', 'metform'),
+		'docs' => 'https://getgenie.ai/docs/',
+	],
+	'wp-fundraising-donation/wp-fundraising.php' => [
+		'name' => esc_html__('FundEngine – Donation and Crowdfunding', 'metform'),
+		'url'  => 'https://wordpress.org/plugins/wp-fundraising-donation/',
+		'icon' => 'https://ps.w.org/wp-fundraising-donation/assets/icon-256x256.png?rev=2544150',
+		'desc' => esc_html__('GetGenie is an AI-powered Content & SEO Assistant. It will assist you in adding a Social Login, Social Counter, and Social Login to your website.', 'metform'),
+		'docs' => 'https://wpmet.com/doc/fundengine/',
+	],
+	'wp-social/wp-social.php' => [
+		'name' => esc_html__('Wp Social Login and Register Social Counter', 'metform'),
+		'url'  => 'https://wordpress.org/plugins/wp-social/',
+		'icon' => 'https://ps.w.org/wp-social/assets/icon-256x256.png?rev=2544214',
+		'desc' => esc_html__('GetGenie is an AI-powered Content & SEO Assistant. It will assist you in adding a Social Login, Social Counter, and Social Login to your website.', 'metform'),
+		'docs' => 'https://wpmet.com/doc/wp-social/',
+	],
+	'wp-ultimate-review/wp-ultimate-review.php' => [
+		'name' => esc_html__('WP Ultimate Review', 'metform'),
+		'url'  => 'https://wordpress.org/plugins/wp-ultimate-review/',
+		'icon' => 'https://ps.w.org/wp-ultimate-review/assets/icon-256x256.png?rev=2544187',
+		'desc' => esc_html__('GetGenie is an AI-powered Content & SEO Assistant. It will assist you in adding a Social Login, Social Counter, and Social Login to your website.', 'metform'),
+		'docs' => 'https://wpmet.com/doc/wp-ultimate-review/',
+	],
+	'blocks-for-shopengine/shopengine-gutenberg-addon.php' => [
+		'name' => esc_html__('Blocks for ShopEngine', 'metform'),
+		'url'  => 'https://wordpress.org/plugins/blocks-for-shopengine/',
+		'icon' => 'https://ps.w.org/blocks-for-shopengine/assets/icon-256x256.gif?rev=2702483',
+		'desc' => esc_html__('Want a Gutenberg addon for easily building and customizing WooCommerce pages with templates and blocks? Then your wait is over.', 'metform'),
+		'docs' => 'https://wpmet.com/doc/metform/',
+	],
+	'genie-image-ai/genie-image-ai.php' => [
+		'name' => esc_html__('Genie Image', 'metform'),
+		'url'  => 'https://wordpress.org/plugins/genie-image-ai/',
+		'icon' => 'https://ps.w.org/genie-image-ai/assets/icon-256x256.png?rev=2977297',
+		'desc' => esc_html__('Want a Gutenberg addon for easily building and customizing WooCommerce pages with templates and blocks? Then your wait is over.', 'metform'),
+		'docs' => '#',
+	],
+  ]
+)
+->call();
 
 ```
 
