@@ -603,7 +603,6 @@ class Plugins {
 			}
 			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--install_plugin {
 				padding: 5px 20px 7px 20px;
-				margin-top: 23px;
 			}
 			.wpmet-onboard-dashboard .wpmet-apps-footer{
 				position: absolute;
@@ -612,6 +611,8 @@ class Plugins {
 				display: flex;
 				justify-content: space-between;
 				align-items: baseline;
+				background: #fff;
+				padding-top: 5px;
 			}
 			.wpmet-onboard-dashboard .wpmet-onboard-single-plugin--install_plugin.wpmet-plugin-install-activate {
 				cursor: no-drop;

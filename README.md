@@ -109,8 +109,8 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
         'desc' => esc_html__('GetGenie is an AI-powered Content & SEO Assistant. It will assist you in adding a Social Login, Social Counter, and Social Login to your website.', 'metform'),
 		'docs' => 'https://getgenie.ai/docs/',
       ],
-      'wp-fundraising-donation/wp-fundraising-donation.php' => [
-        'name' => esc_html__('wp-fundraising-donation', 'metform'),
+      'wp-fundraising-donation/wp-fundraising.php' => [
+        'name' => esc_html__('FundEngine – Donation and Crowdfunding', 'metform'),
         'url'  => 'https://wordpress.org/plugins/wp-fundraising-donation/',
         'icon' => 'https://ps.w.org/wp-fundraising-donation/assets/icon-256x256.png?rev=2544150',
         'desc' => esc_html__('GetGenie is an AI-powered Content & SEO Assistant. It will assist you in adding a Social Login, Social Counter, and Social Login to your website.', 'metform'),
