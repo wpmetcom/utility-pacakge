@@ -19,7 +19,7 @@ class Apps
 	private static $instance;
 	private $text_domain;
 	private $parent_menu_slug;
-	private $menu_slug = '_wpmet_apps';
+	private $menu_slug = '_wpmet_plugins';
 	private $submenu_name = 'Our Plugins';
 	private $plugins = [];
 	public $items_per_row = 4;
