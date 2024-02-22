@@ -149,7 +149,7 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
 			'url'  => 'https://wordpress.org/plugins/blocks-for-shopengine/',
 			'icon' => 'https://ps.w.org/blocks-for-shopengine/assets/icon-256x256.gif?rev=2702483',
 			'desc' => esc_html__('All in one WooCommerce solution for Gutenberg! Build your WooCommerce pages in a block editor with full customization.', 'metform'),
-			'docs' => 'https://wpmet.com/doc/shopengine/',
+			'docs' => 'https://wpmet.com/doc/shopengine/shopengine-gutenberg/',
 		],
 		'genie-image-ai/genie-image-ai.php' => [
 			'name' => esc_html__('Genie Image', 'metform'),
