@@ -162,5 +162,14 @@ $filter_string .= (!class_exists('\MetForm_Pro\Plugin') ? '' : ',metform-pro');
 )
 ->call();
 
+/**
+ * Show 'Edit with Emailkit' button in the WooCommerce > Settings > Email section
+ */
+if( ! did_action( 'edit_with_emailkit_loaded' ) && class_exists( '\Wpmet\UtilityPackage\Emailkit\Emailkit' ) ) {
+	
+	new \Wpmet\UtilityPackage\Emailkit\Emailkit();
+}
+
+
 ```
 
