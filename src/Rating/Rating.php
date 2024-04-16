@@ -501,7 +501,7 @@ class Rating {
 						url: ajaxurl,
 						type: 'POST',
 						data: {
-							action 	: 'wpmet_rating_ask_me_later_message',
+							action 	: 'wpmet_rating_never_show_message',
 							plugin_name : '" . esc_js( $this->text_domain ) . "',
 							nonce : '" . esc_js( wp_create_nonce( 'wpmet_rating' ) ) . "'
 						},
