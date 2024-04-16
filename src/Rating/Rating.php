@@ -16,6 +16,7 @@ use Wpmet\UtilityPackage\Helper\Helper as UtilsHelper;
 class Rating {
 
 	private $plugin_name;
+	private $message;
 	private $priority = 10;
 	private $days;
 	private $rating_url;
@@ -90,6 +91,15 @@ class Rating {
 	public function set_plugin( $plugin_name, $plugin_url ) {
 		$this->plugin_name = $plugin_name;
 		$this->rating_url  = $plugin_url;
+		return $this;
+	}
+
+	/**
+	 * Set message for review
+	 * @param $message string type
+	 */
+	public function set_message( $message ) {
+		$this->message = $message;
 		return $this;
 	}
 
@@ -324,6 +334,8 @@ class Rating {
 			$message = "Hello! Seems like you have used {$this->plugin_name} to build this website — Thanks a lot! <br>
 						Could you please do us a <b>big favor</b> and give it a <b>5-star</b> rating on WordPress? 
 						This would boost our motivation and help other users make a comfortable decision while choosing the {$this->plugin_name}";
+
+			$message = $this->message ?? $message;
 
 			LibsNotice::instance( $this->text_domain, '_plugin_rating_msg_used_in_day' )
 				->set_message( $message )
