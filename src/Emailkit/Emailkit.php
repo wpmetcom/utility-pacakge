@@ -458,19 +458,19 @@ if( ! class_exists( '\Wpmet\UtilityPackage\Emailkit\Emailkit' ) ) {
 					}
 
 
-					let _self = "";
+					let _emailkit_self = "";
 					$('.wpmet-emailkit-install-activate').on('click', function(e){
 						
 						e.preventDefault();
-						_self = this;
-						jQuery(_self).addClass('emailkit-slider-loader');
-						if(jQuery(_self).next()){
-							jQuery(_self).next().css('display', 'none');
+						_emailkit_self = this;
+						jQuery(_emailkit_self).addClass('emailkit-slider-loader');
+						if(jQuery(_emailkit_self).next()){
+							jQuery(_emailkit_self).next().css('display', 'none');
 						}
 
-						disableBtn('.wpmet-woocom-editwithemailkit', _self, true);
+						disableBtn('.wpmet-woocom-editwithemailkit', _emailkit_self, true);
 
-						jQuery('.wpmet-woocom-editwithemailkit').not(_self).each((index, item) => {
+						jQuery('.wpmet-woocom-editwithemailkit').not(_emailkit_self).each((index, item) => {
 							jQuery(item).prop('disabled', true);
 						})
 						let installation_url = $(this).attr('href');
@@ -518,8 +518,8 @@ if( ! class_exists( '\Wpmet\UtilityPackage\Emailkit\Emailkit' ) ) {
 									}
 								},
 								error: function (error) {
-									jQuery(_self).remove('emailkit-slider-loader');
-									jQuery(_self).next().css('display', 'block');
+									jQuery(_emailkit_self).remove('emailkit-slider-loader');
+									jQuery(_emailkit_self).next().css('display', 'block');
 									disableBtn('.wpmet-woocom-editwithemailkit', false);
 									console.error(error);
 								}
@@ -553,8 +553,8 @@ if( ! class_exists( '\Wpmet\UtilityPackage\Emailkit\Emailkit' ) ) {
 									rdirectToBuilder(response);
 								},
 								error: function (error) {
-									jQuery(_self).remove('emailkit-slider-loader');
-									jQuery(_self).next().css('display', 'block');
+									jQuery(_emailkit_self).remove('emailkit-slider-loader');
+									jQuery(_emailkit_self).next().css('display', 'block');
 									disableBtn('.wpmet-woocom-editwithemailkit', false);
 									console.error(error);
 								}
@@ -580,11 +580,11 @@ if( ! class_exists( '\Wpmet\UtilityPackage\Emailkit\Emailkit' ) ) {
 									'emailkit_template_status': 'active'
 								},
 								success: function (response) {
-									jQuery(_self).remove('emailkit-slider-loader');
+									jQuery(_emailkit_self).remove('emailkit-slider-loader');
 									window.location.href = response.data.builder_url;
 								},
 								error: function (error) {
-									jQuery(_self).remove('emailkit-slider-loader');
+									jQuery(_emailkit_self).remove('emailkit-slider-loader');
 									disableBtn('.wpmet-woocom-editwithemailkit', false);
 									console.error(error);
 								}
@@ -595,7 +595,7 @@ if( ! class_exists( '\Wpmet\UtilityPackage\Emailkit\Emailkit' ) ) {
 						}
 					}
 
-					self = "";
+					_emailkit_self = "";
 				});
 			</script>
 			<?php
