@@ -66,7 +66,10 @@ class Stories {
 
 	private function in_whitelist( $conf, $list ) {
 
-		$match = $conf->data->whitelist;
+		// The remote API is expected to always send a (possibly empty)
+		// "whitelist" field, but don't throw a PHP warning if a response
+		// ever omits it.
+		$match = $conf->data->whitelist ?? '';
 
 		if ( empty( $match ) ) {
 
@@ -87,7 +90,8 @@ class Stories {
 
 	private function in_blacklist( $conf, $list ) {
 
-		$match = $conf->data->blacklist;
+		// Same defensive fallback as in_whitelist() above.
+		$match = $conf->data->blacklist ?? '';
 
 		if ( empty( $match ) ) {
 
