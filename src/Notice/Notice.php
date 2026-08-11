@@ -379,6 +379,10 @@ class Notice {
 			return false;
 		}
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error();
+		}
+
 		$notice_id    = ( isset( $_POST['notice_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['notice_id'] ) ) : '';
 		$dismissible  = ( isset( $_POST['dismissible'] ) ) ? sanitize_text_field( wp_unslash( $_POST['dismissible'] ) ) : '';
 		$expired_time = ( isset( $_POST['expired_time'] ) ) ? sanitize_text_field( wp_unslash( $_POST['expired_time'] ) ) : '';

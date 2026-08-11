@@ -434,7 +434,7 @@ class Plugins {
 
 									if( !empty($plugin_docs) ) :
 										echo sprintf(
-											'<a target="_blank" href="%1$s" class="wpmet-onboard-tut-term--help">%2$s</a>',
+											'<a target="_blank" rel="noopener noreferrer" href="%1$s" class="wpmet-onboard-tut-term--help">%2$s</a>',
 											esc_url($plugin_docs),
 											esc_html__('Read Docs', 'text-domain')
 										);

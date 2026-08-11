@@ -265,12 +265,20 @@ class Rating {
 	 * ---------------------------------------------
 	 */
 	public static function never_show_message() {
-		
+
 		if( empty( $_POST['nonce'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpmet_rating' ) ){
-			//return false;
+			return false;
 		}
 
-		$plugin_name = isset($_POST['plugin_name']) ? sanitize_key( $_POST['plugin_name'] ) : '';
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+
+		$plugin_name = isset( $_POST['plugin_name'] ) ? sanitize_key( wp_unslash( $_POST['plugin_name'] ) ) : '';
+		if ( '' === $plugin_name ) {
+			return false;
+		}
+
 		add_option( $plugin_name . '_never_show', 'yes' );
 	}
 
@@ -385,12 +393,20 @@ class Rating {
 
 
 	public static function ask_me_later_message() {
-		
+
 		if( empty( $_POST['nonce'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpmet_rating' ) ){
 			return false;
 		}
 
-		$plugin_name = isset($_POST['plugin_name']) ? sanitize_key( $_POST['plugin_name'] ) : '';
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+
+		$plugin_name = isset( $_POST['plugin_name'] ) ? sanitize_key( wp_unslash( $_POST['plugin_name'] ) ) : '';
+		if ( '' === $plugin_name ) {
+			return false;
+		}
+
 		if ( get_option( $plugin_name . '_ask_me_later' ) == false ) {
 			add_option( $plugin_name . '_ask_me_later', 'yes' );
 		} else {

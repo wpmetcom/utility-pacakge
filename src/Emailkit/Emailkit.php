@@ -56,6 +56,16 @@ if( ! class_exists( '\Wpmet\UtilityPackage\Emailkit\Emailkit' ) ) {
 				];
 			}
 
+			// This builds/returns an edit-post URL for the matching emailkit template,
+			// so require the same capability the WooCommerce > Settings > Emails page
+			// (where this is called from) is itself gated behind.
+			if ( ! current_user_can( 'manage_woocommerce' ) ) {
+				return [
+					'status'    => 'fail',
+					'message'   => ['Permission denied.']
+				];
+			}
+
 			$wc_template_type = isset($_POST['emailkit_template_type']) ? sanitize_text_field(wp_unslash($_POST['emailkit_template_type'])) : '';
 			$post_id = $this->get_emailkit_post_id($wc_template_type);
 

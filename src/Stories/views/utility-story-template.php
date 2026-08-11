@@ -87,7 +87,7 @@
 		<?php
 		$plugin_links = apply_filters('wpmet/stories/plugin_links', []);
 		foreach ($plugin_links as $k => $link) {
-			echo '<a target="_blank" href="' . esc_url($link[1]) . '"> ' . esc_html($link[0]) . '</a>';
+			echo '<a target="_blank" rel="noopener noreferrer" href="' . esc_url($link[1]) . '"> ' . esc_html($link[0]) . '</a>';
 			if (isset($plugin_links[$k + 1])) {
 				echo '<div class="utility-bullet-wall"></div>';
 			}
@@ -109,8 +109,8 @@ foreach ( $this->stories as $story ) :
 
 			<div  class="utility-stories-str-desc">
 
-				<a target="_blank" href="<?php echo esc_url( $story['story_link'] ); ?>">
-					<?php echo esc_html( $story['title'] ); ?>    
+				<a target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( $story['story_link'] ); ?>">
+					<?php echo esc_html( $story['title'] ); ?>
 				</a>
 
 				<?php if ( isset( $story['description'] ) && $story['description'] != '' ) : ?>
@@ -123,7 +123,7 @@ foreach ( $this->stories as $story ) :
 	elseif ( $story['type'] === 'banner' ) :
 		?>
 		<div class="utility-stories-str">
-			<a target="_blank" href="<?php echo esc_url( $story['story_link'] ); ?>">
+			<a target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( $story['story_link'] ); ?>">
 				<img class="utility-banner" src="<?php echo isset( $story['story_image'] ) && $story['story_image'] != '' ? esc_url($story['story_image']) : '#'; ?>" />
 			</a>
 		</div>
@@ -134,16 +134,16 @@ endforeach;
 
 <div class="utility-dashboard-widget-block">
 	<div class="utility-footer-bar">
-		<a href="https://wpmet.com/support-ticket" target="_blank">
-			<?php echo esc_html__( 'Need Help?', 'elementskit-lite' ); ?> 
+		<a href="https://wpmet.com/support-ticket" target="_blank" rel="noopener noreferrer">
+			<?php echo esc_html__( 'Need Help?', 'elementskit-lite' ); ?>
 			<span aria-hidden="true" class="dashicons dashicons-external"></span>
 		</a>
-		<a href="https://wpmet.com/blog/" target="_blank">
-		<?php echo esc_html__( 'Blog', 'elementskit-lite' ); ?> 
+		<a href="https://wpmet.com/blog/" target="_blank" rel="noopener noreferrer">
+		<?php echo esc_html__( 'Blog', 'elementskit-lite' ); ?>
 			<span aria-hidden="true" class="dashicons dashicons-external"></span>
 		</a>
-		<a href="https://wpmet.com/fb-group" target="_blank" style="color: #27ae60;">
-			<?php echo esc_html__( 'Facebook Community', 'elementskit-lite' ); ?> 
+		<a href="https://wpmet.com/fb-group" target="_blank" rel="noopener noreferrer" style="color: #27ae60;">
+			<?php echo esc_html__( 'Facebook Community', 'elementskit-lite' ); ?>
 			<span aria-hidden="true" class="dashicons dashicons-external"></span>
 		</a>
 	</div>

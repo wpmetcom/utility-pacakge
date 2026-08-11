@@ -67,7 +67,7 @@ class Banner {
 					$banner_unique_id = ( ( isset( $content->data->unique_key ) && $content->data->unique_key != '' ) ? $content->data->unique_key : $content->id );
 	
 					if ( ! empty( $content->data->style_css ) ) {
-						$inline_css = ' style="' . $content->data->style_css . '"';
+						$inline_css = ' style="' . esc_attr( $content->data->style_css ) . '"';
 					}
 
 					$instance = \Wpmet\UtilityPackage\Notice\Notice::instance( 'wpmet-jhanda', $banner_unique_id )
@@ -91,15 +91,15 @@ class Banner {
 		$instance->set_message( $content->data->notice_body );
 
 		if ( $content->data->notice_image != '' ) {
-			$instance->set_logo( $content->data->notice_image );
+			$instance->set_logo( esc_url_raw( $content->data->notice_image ) );
 		}
 		if ( $content->data->button_text != '' ) {
 			$instance->set_button(
 				array(
 					'default_class' => 'button',
 					'class'         => 'button-secondary button-small', // button-primary button-secondary button-small button-large button-link
-					'text'          => $content->data->button_text,
-					'url'           => $content->data->button_link,
+					'text'          => sanitize_text_field( $content->data->button_text ),
+					'url'           => esc_url_raw( $content->data->button_link ),
 				)
 			);
 		}
@@ -107,8 +107,8 @@ class Banner {
 	}    
 
 	private function init_banner( $content, $instance, $inline_css ) {
-	
-		$html = '<a target="_blank" ' . $inline_css . ' class="wpmet-jhanda-href" href="' . $content->data->banner_link . '"><img style="display: block;margin: 0 auto;" src="' . $content->data->banner_image . '" /></a>';
+
+		$html = '<a target="_blank" rel="noopener noreferrer"' . $inline_css . ' class="wpmet-jhanda-href" href="' . esc_url( $content->data->banner_link ) . '"><img style="display: block;margin: 0 auto;" src="' . esc_url( $content->data->banner_image ) . '" alt="" /></a>';
 	
 		$instance->set_gutter( false )
 		->set_html( $html )
@@ -216,23 +216,34 @@ class Banner {
 			$response = wp_remote_get(
 				$this->api_url . '/cache/' . $this->text_domain . '.json?nocache=' . time(),
 				array(
-					'timeout'     => 10,
-					'httpversion' => '1.1',
+					'timeout'             => 10,
+					'httpversion'         => '1.1',
+					'limit_response_size' => MB_IN_BYTES,
 				)
 			);
-		
-			if ( ! is_wp_error( $response ) && isset( $response['body'] ) && $response['body'] != '' ) {
 
-				$response = json_decode( $response['body'] );
-
-				if ( ! empty( $response ) ) {
-					$this->data = $response;
-					update_option( $this->text_domain . '__banner_last_check', time() );
-					update_option( $this->text_domain . '__banner_data', $this->data );
-				}
-
+			// Bail on a transport error or a non-200 response before touching the body.
+			if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
 				return;
 			}
+
+			$body = wp_remote_retrieve_body( $response );
+
+			// Bail on an empty or implausibly large body (defense in depth alongside limit_response_size).
+			if ( '' === $body || strlen( $body ) > MB_IN_BYTES ) {
+				return;
+			}
+
+			$decoded = json_decode( $body );
+
+			// Bail on malformed JSON so a poisoned/garbled API response never gets cached or rendered.
+			if ( JSON_ERROR_NONE !== json_last_error() || empty( $decoded ) ) {
+				return;
+			}
+
+			$this->data = $decoded;
+			update_option( $this->text_domain . '__banner_last_check', time() );
+			update_option( $this->text_domain . '__banner_data', $this->data );
 		}
 	}
 
