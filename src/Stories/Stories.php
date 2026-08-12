@@ -66,7 +66,10 @@ class Stories {
 
 	private function in_whitelist( $conf, $list ) {
 
-		$match = $conf->data->whitelist;
+		// The remote API is expected to always send a (possibly empty)
+		// "whitelist" field, but don't throw a PHP warning if a response
+		// ever omits it.
+		$match = $conf->data->whitelist ?? '';
 
 		if ( empty( $match ) ) {
 
@@ -87,7 +90,8 @@ class Stories {
 
 	private function in_blacklist( $conf, $list ) {
 
-		$match = $conf->data->blacklist;
+		// Same defensive fallback as in_whitelist() above.
+		$match = $conf->data->blacklist ?? '';
 
 		if ( empty( $match ) ) {
 
@@ -178,12 +182,12 @@ class Stories {
 
 		$this->stories[ $story->id ] = array(
 			'id'          => $story->id,
-			'title'       => $story->title,
-			'description' => $story->description,
+			'title'       => sanitize_text_field( $story->title ),
+			'description' => sanitize_text_field( $story->description ),
 			'type'        => $story->type,
 			'priority'    => $story->priority,
-			'story_link'  => $story->data->story_link,
-			'story_image' => $story->data->story_image,
+			'story_link'  => esc_url_raw( $story->data->story_link ),
+			'story_image' => esc_url_raw( $story->data->story_image ),
 		);
 	}
 
@@ -199,24 +203,35 @@ class Stories {
 			$response = wp_remote_get(
 				$this->api_url . 'cache/stories.json?nocache=' . time(),
 				array(
-					'timeout'     => 10,
-					'httpversion' => '1.1',
+					'timeout'             => 10,
+					'httpversion'         => '1.1',
+					'limit_response_size' => MB_IN_BYTES,
 				)
 			);
 
-			if ( ! is_wp_error( $response ) && isset( $response['body'] ) && $response['body'] != '' ) {
-				
-				$response = json_decode( $response['body'] );
-				
-				if ( ! empty( $response ) ) {
-					$this->data = $response;
-
-					update_option( $this->text_domain . '__stories_last_check', time() );
-					update_option( $this->text_domain . '__stories_data', $this->data );
-				}
-
+			// Bail on a transport error or a non-200 response before touching the body.
+			if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
 				return;
 			}
+
+			$body = wp_remote_retrieve_body( $response );
+
+			// Bail on an empty or implausibly large body (defense in depth alongside limit_response_size).
+			if ( '' === $body || strlen( $body ) > MB_IN_BYTES ) {
+				return;
+			}
+
+			$decoded = json_decode( $body );
+
+			// Bail on malformed JSON so a poisoned/garbled API response never gets cached or rendered.
+			if ( JSON_ERROR_NONE !== json_last_error() || empty( $decoded ) ) {
+				return;
+			}
+
+			$this->data = $decoded;
+
+			update_option( $this->text_domain . '__stories_last_check', time() );
+			update_option( $this->text_domain . '__stories_data', $this->data );
 		}
 	}
 	

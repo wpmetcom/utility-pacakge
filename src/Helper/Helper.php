@@ -21,6 +21,13 @@ class Helper
                 'rel'    => array(),
                 'title'  => array(),
                 'target' => array(),
+                // Needed so Banner::init_banner()'s remote-configurable style_css
+                // (and its own hardcoded centering style) survive this filter -
+                // WP's wp_kses() runs any allowed 'style' attribute through its
+                // own safecss_filter_attr(), so this doesn't add a new XSS/CSS
+                // injection vector, it just stops previously-legitimate inline
+                // styles from being silently stripped.
+                'style'  => array(),
             ),
             'abbr'                          => array(
                 'title' => array(),
@@ -73,6 +80,8 @@ class Helper
                 'height' => array(),
                 'src'    => array(),
                 'width'  => array(),
+                // See note on the 'a' tag's 'style' entry above - same rationale.
+                'style'  => array(),
             ),
             'li'                            => array(
                 'class' => array(),
@@ -129,6 +138,13 @@ class Helper
                 'rel'    => array(),
                 'title'  => array(),
                 'target' => array(),
+                // Needed so Banner::init_banner()'s remote-configurable style_css
+                // (and its own hardcoded centering style) survive this filter -
+                // WP's wp_kses() runs any allowed 'style' attribute through its
+                // own safecss_filter_attr(), so this doesn't add a new XSS/CSS
+                // injection vector, it just stops previously-legitimate inline
+                // styles from being silently stripped.
+                'style'  => array(),
             ),
             'abbr'                          => array(
                 'title' => array(),
@@ -181,6 +197,8 @@ class Helper
                 'height' => array(),
                 'src'    => array(),
                 'width'  => array(),
+                // See note on the 'a' tag's 'style' entry above - same rationale.
+                'style'  => array(),
             ),
             'li'                            => array(
                 'class' => array(),
