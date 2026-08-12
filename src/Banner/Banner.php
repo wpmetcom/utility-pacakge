@@ -64,7 +64,7 @@ class Banner {
 				if ( $this->is_correct_screen_to_show( $content->screen, $screen->id ) && class_exists( '\Wpmet\UtilityPackage\Notice\Notice' ) ) {
 	
 					$inline_css       = '';
-					$banner_unique_id = ( ( isset( $content->data->unique_key ) && $content->data->unique_key != '' ) ? $content->data->unique_key : $content->id );
+					$banner_unique_id = sanitize_key( ( isset( $content->data->unique_key ) && $content->data->unique_key != '' ) ? $content->data->unique_key : $content->id );
 	
 					if ( ! empty( $content->data->style_css ) ) {
 						$inline_css = ' style="' . esc_attr( $content->data->style_css ) . '"';
@@ -87,8 +87,7 @@ class Banner {
 
 
 	private function init_notice( $content, $instance, $inline_css ) {
-	
-		$instance->set_message( $content->data->notice_body );
+		$instance->set_message( wp_kses( $content->data->notice_body, UtilsHelper::get_kses_array() ) );
 
 		if ( $content->data->notice_image != '' ) {
 			$instance->set_logo( esc_url_raw( $content->data->notice_image ) );

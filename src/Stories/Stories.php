@@ -182,8 +182,8 @@ class Stories {
 
 		$this->stories[ $story->id ] = array(
 			'id'          => $story->id,
-			'title'       => $story->title,
-			'description' => $story->description,
+			'title'       => sanitize_text_field( $story->title ),
+			'description' => sanitize_text_field( $story->description ),
 			'type'        => $story->type,
 			'priority'    => $story->priority,
 			'story_link'  => esc_url_raw( $story->data->story_link ),
