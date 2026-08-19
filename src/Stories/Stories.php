@@ -61,7 +61,7 @@ class Stories {
 	}
 
 	public function call() {
-		add_action( 'wp_dashboard_setup', array( $this, 'show_story_widget' ), 111 );
+		add_action( 'wp_dashboard_setup', array( $this, 'show_story_widget' ), 119 );
 	}
 
 	private function in_whitelist( $conf, $list ) {
