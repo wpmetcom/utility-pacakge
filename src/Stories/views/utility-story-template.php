@@ -135,15 +135,15 @@ endforeach;
 <div class="utility-dashboard-widget-block">
 	<div class="utility-footer-bar">
 		<a href="https://wpmet.com/support-ticket" target="_blank" rel="noopener noreferrer">
-			<?php echo esc_html__( 'Need Help?', 'elementskit-lite' ); ?>
+			<?php echo esc_html__( 'Need Help?', 'text-domain' ); ?>
 			<span aria-hidden="true" class="dashicons dashicons-external"></span>
 		</a>
 		<a href="https://wpmet.com/blog/" target="_blank" rel="noopener noreferrer">
-		<?php echo esc_html__( 'Blog', 'elementskit-lite' ); ?>
+		<?php echo esc_html__( 'Blog', 'text-domain' ); ?>
 			<span aria-hidden="true" class="dashicons dashicons-external"></span>
 		</a>
 		<a href="https://wpmet.com/fb-group" target="_blank" rel="noopener noreferrer" style="color: #27ae60;">
-			<?php echo esc_html__( 'Facebook Community', 'elementskit-lite' ); ?>
+			<?php echo esc_html__( 'Facebook Community', 'text-domain' ); ?>
 			<span aria-hidden="true" class="dashicons dashicons-external"></span>
 		</a>
 	</div>
