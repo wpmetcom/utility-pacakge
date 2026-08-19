@@ -304,6 +304,43 @@ class Stories {
 	}
 
 	/**
+	 * Footer links shown below the stories list.
+	 *
+	 * The labels live here rather than in views/utility-story-template.php because that view
+	 * is listed in every consuming plugin's php-scoper `exclude-files`: it opens with inline
+	 * HTML, so scoping it would inject the `namespace ...;` statement into the first PHP block
+	 * it finds - mid-file - which is a fatal parse error. Excluded files skip the `patchers`
+	 * pass as well, so the text-domain placeholder was never rewritten there while every
+	 * other string in the package was. This file is scoped normally, so the placeholder below
+	 * is replaced with the plugin's own text domain like the rest of them.
+	 *
+	 * @return array List of links, each with `url`, `label` and `style` keys.
+	 */
+	public function get_footer_links() {
+
+		return apply_filters(
+			'wpmet/stories/footer_links',
+			array(
+				array(
+					'url'   => 'https://wpmet.com/support-ticket',
+					'label' => __( 'Need Help?', 'text-domain' ),
+					'style' => '',
+				),
+				array(
+					'url'   => 'https://wpmet.com/blog/',
+					'label' => __( 'Blog', 'text-domain' ),
+					'style' => '',
+				),
+				array(
+					'url'   => 'https://wpmet.com/fb-group',
+					'label' => __( 'Facebook Community', 'text-domain' ),
+					'style' => 'color: #27ae60;',
+				),
+			)
+		);
+	}
+
+	/**
 	 * Crosscheck if Story library will be shown at current WP admin page or not
 	 *
 	 * @param string $b_screen
