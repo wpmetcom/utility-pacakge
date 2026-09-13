@@ -274,9 +274,9 @@ class Stories {
 			return;
 		}
 
-		$this->title = ( isset( $this->title ) && ! empty( $this->title ) ? $this->title . ' ' : '' ) . 'Stories';
+		$this->title = ( isset( $this->title ) && ! empty( $this->title ) ? $this->title . ' ' : '' ) . __('Stories', 'text-domain');
 
-        wp_add_dashboard_widget('wpmet-stories', $this->title ?? __('Wpmet Stories'), array($this, 'show'), null, null, 'normal', 'high' );
+        wp_add_dashboard_widget('wpmet-stories', $this->title ?? __('Wpmet Stories', 'text-domain'), array($this, 'show'), null, null, 'normal', 'high' );
 
 		// Move our widget to top.
 		global $wp_meta_boxes;
