@@ -1,3 +1,4 @@
+<?php defined( 'ABSPATH' ) || exit; ?>
 <style>
 	.utility-stories-str {
 		display: flex;
