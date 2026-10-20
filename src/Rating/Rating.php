@@ -224,7 +224,7 @@ class Rating {
 
 
 	public function set_installation_date() {
-		add_option( $this->text_domain . '_install_date', date( 'Y-m-d h:i:s' ) );
+		add_option( $this->text_domain . '_install_date', gmdate( 'Y-m-d h:i:s' ) );
 	}
 
 	public function is_installation_date_exists() {
@@ -236,7 +236,7 @@ class Rating {
 	}
 
 	public function set_first_action_date() {
-		add_option( $this->text_domain . '_first_action_Date', date( 'Y-m-d h:i:s' ) );
+		add_option( $this->text_domain . '_first_action_Date', gmdate( 'Y-m-d h:i:s' ) );
 		add_option( $this->text_domain . '_first_action', 'yes' );
 	}
 
@@ -246,7 +246,7 @@ class Rating {
 
 	public function is_first_use( $in_days ) {
 		$install_date  = get_option( $this->text_domain . '_install_date' );
-		$display_date  = date( 'Y-m-d h:i:s' );
+		$display_date  = gmdate( 'Y-m-d h:i:s' );
 		$datetime1     = new DateTime( $install_date );
 		$datetime2     = new DateTime( $display_date );
 		$diff_interval = $this->get_days( $datetime1, $datetime2 );
@@ -296,7 +296,7 @@ class Rating {
 
 	public function get_remaining_days() {
 		$install_date  = get_option( $this->text_domain . '_install_date' );
-		$display_date  = date( 'Y-m-d h:i:s' );
+		$display_date  = gmdate( 'Y-m-d h:i:s' );
 		$datetime1     = new DateTime( $install_date );
 		$datetime2     = new DateTime( $display_date );
 		$diff_interval = $this->get_days( $datetime1, $datetime2 );
@@ -321,7 +321,7 @@ class Rating {
 		$wpmet_libs_execution_container['rating'] = __FILE__;
 
 		$install_date  = get_option( $this->text_domain . '_install_date' );
-		$display_date  = date( 'Y-m-d h:i:s' );
+		$display_date  = gmdate( 'Y-m-d h:i:s' );
 		$datetime1     = new DateTime( $install_date );
 		$datetime2     = new DateTime( $display_date );
 		$diff_interval = $this->get_days( $datetime1, $datetime2 );
